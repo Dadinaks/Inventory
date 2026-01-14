@@ -67,4 +67,13 @@ interface RepositoryInterface
      * @return object[] List of domain entities
      */
     public function findAll(): array;
+
+    /**
+     * Counts entities matching given criteria.
+     *
+     * @param array<string, mixed> $criteria
+     *
+     * @return int|null Number of matching entities
+     */
+    public function count(array $criteria = []): ?int;
 }

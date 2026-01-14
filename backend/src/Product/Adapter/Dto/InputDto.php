@@ -3,11 +3,14 @@
 namespace Dadinaks\Product\Adapter\Dto;
 
 use Dadinaks\Shared\Adapter\Dto\inputDtoInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 final class InputDto implements inputDtoInterface
 {
     public function __construct(
-        public readonly string $code,
-        public readonly float $name
+        #[Assert\Sequentially(
+            new Assert\NotBlank(),
+        )]
+        public readonly string $name
     ) {}
 }
