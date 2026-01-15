@@ -3,12 +3,14 @@
 namespace Dadinaks\Product\Application\UseCase;
 
 use Dadinaks\Product\Adapter\Dto\OutputDto;
+use Dadinaks\Product\Application\Policy\DeletePolicy;
 use Dadinaks\Shared\Domain\Repository\RepositoryInterface;
 
 final class DeleteProduct
 {
     public function __construct(
-        private RepositoryInterface $repository
+        private RepositoryInterface $repository,
+        private DeletePolicy $policy
     ) {}
 
     public function execute(string $uid): OutputDto
@@ -18,6 +20,12 @@ final class DeleteProduct
         if (!$product) {
             throw new \DomainException(
                 sprintf('Product with uid: "%s" not found.', $uid)
+            );
+        }
+
+        if (!$this->policy->canDelete($product)) {
+            throw new \DomainException(
+                sprintf('Product "%s" is already deleted.', $product->getCode())
             );
         }
 
