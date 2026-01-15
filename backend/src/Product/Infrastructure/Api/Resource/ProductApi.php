@@ -3,6 +3,7 @@
 namespace Dadinaks\Product\Infrastructure\Api\Resource;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
@@ -36,7 +37,7 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
             )
         ),
         new Patch(
-            uriTemplate: '/products/{uid}/threshold',
+            uriTemplate: '/product/{uid}/threshold',
             input: ThresholdDto::class,
             output: OutputDto::class,
             processor: ProductProcessor::class,
@@ -45,7 +46,18 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
                 summary: 'Update product threshold',
                 description: 'Updates the threshold value for a specific product identified by its UID.'
             )
-        )
+        ),
+        new Delete(
+            uriTemplate: '/product/{uid}/delete',
+            output: OutputDto::class,
+            processor: ProductProcessor::class,
+            provider: ProductProvider::class,
+            status: 200,
+            openapi: new Operation(
+                summary: 'Delete a product',
+                description: 'Deletes a specific product identified by its UID.'
+            )
+        ),
     ]
 )]
 final class ProductApi {}

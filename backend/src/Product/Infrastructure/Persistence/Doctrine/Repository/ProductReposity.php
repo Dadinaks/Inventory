@@ -23,6 +23,8 @@ final class ProductReposity implements RepositoryInterface
 
         if ($orm) {
             $orm->setThreshold($entity->getThreshold());
+            $orm->setDeleted($entity->isDeleted());
+            $orm->setDeletedAt($entity->getDeletedAt());
             $orm->setUpdatedAt($entity->getUpdatedAt());
         } else {
             $orm = ProductOrm::fromDomain($entity);

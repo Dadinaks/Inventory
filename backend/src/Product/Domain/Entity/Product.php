@@ -111,6 +111,15 @@ final class Product
         $this->updatedAt = new \DateTimeImmutable();
     }
 
+    public function markAsDeleted(): void
+    {
+        if (!$this->isDeleted) {
+            $this->isDeleted = true;
+            $this->deletedAt = new \DateTimeImmutable();
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
     public function getUid(): string
     {
         return $this->uid;

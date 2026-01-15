@@ -2,10 +2,12 @@
 
 namespace Dadinaks\Product\Infrastructure\Api\Processor;
 
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Dadinaks\Product\Application\UseCase\AddThreshold;
 use Dadinaks\Product\Application\UseCase\CreateProduct;
+use Dadinaks\Product\Application\UseCase\DeleteProduct;
 use Dadinaks\Shared\Adapter\Interface\PresenterInterface;
 
 final class ProductProcessor implements ProcessorInterface
@@ -13,12 +15,23 @@ final class ProductProcessor implements ProcessorInterface
     public function __construct(
         private readonly CreateProduct $useCaseCreate,
         private readonly AddThreshold $useCaseThereshold,
+        private readonly DeleteProduct $useCaseDelete,
         private readonly PresenterInterface $presenter,
     ) {}
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         if (isset($uriVariables['uid'])) {
+            if ($operation instanceof Delete) {
+                $product = $this->useCaseDelete->execute($uriVariables['uid']);
+
+                return $this->presenter->presentSuccess(
+                    200,
+                    'Product deleted successfully.',
+                    $product
+                );
+            }
+
             $product = $this->useCaseThereshold->execute(
                 $uriVariables['uid'],
                 $data->threshold
