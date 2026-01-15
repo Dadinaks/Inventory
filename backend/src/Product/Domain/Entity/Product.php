@@ -100,6 +100,9 @@ final class Product
     public function update(?int $threshold, ?bool $isDeleted): void
     {
         if ($threshold !== null) {
+            if ($this->threshold === $threshold) {
+                throw new \DomainException(sprintf('Threshold is already set to %d.', $threshold));
+            }
             $this->threshold = $threshold;
         }
 
