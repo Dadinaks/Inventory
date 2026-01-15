@@ -4,10 +4,12 @@ namespace Dadinaks\Product\Infrastructure\Api\Resource;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model\Operation;
 use Dadinaks\Product\Adapter\Dto\InputDto;
 use Dadinaks\Product\Adapter\Dto\OutputDto;
+use Dadinaks\Product\Adapter\Dto\ThresholdDto;
 use Dadinaks\Product\Infrastructure\Api\Processor\ProductProcessor;
 use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
 
@@ -27,10 +29,21 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
         ),
         new GetCollection(
             output: OutputDto::class,
-            provider:ProductProvider::class,
+            provider: ProductProvider::class,
             openapi: new Operation(
                 summary: 'Retrieve a list of products',
                 description: 'Retrieves a collection of all products.'
+            )
+        ),
+        new Patch(
+            uriTemplate: '/products/{uid}/threshold',
+            input: ThresholdDto::class,
+            output: OutputDto::class,
+            processor: ProductProcessor::class,
+            provider: ProductProvider::class,
+            openapi: new Operation(
+                summary: 'Update product threshold',
+                description: 'Updates the threshold value for a specific product identified by its UID.'
             )
         )
     ]

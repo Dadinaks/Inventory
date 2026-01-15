@@ -19,9 +19,16 @@ final class ProductReposity implements RepositoryInterface
             throw new \InvalidArgumentException('Expected ' . Product::class);
         }
 
-        $orm = ProductOrm::fromDomain($entity);
+        $orm = $this->entityManager->getRepository(ProductOrm::class)->findOneBy(['uid' => $entity->getUid()]);
 
-        $this->entityManager->persist($orm);
+        if ($orm) {
+            $orm->setThreshold($entity->getThreshold());
+            $orm->setUpdatedAt($entity->getUpdatedAt());
+        } else {
+            $orm = ProductOrm::fromDomain($entity);
+            $this->entityManager->persist($orm);
+        }
+
         $this->entityManager->flush();
     }
 

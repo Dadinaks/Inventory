@@ -97,6 +97,20 @@ final class Product
         return $product;
     }
 
+    public function update(?int $threshold, ?bool $isDeleted): void
+    {
+        if ($threshold !== null) {
+            $this->threshold = $threshold;
+        }
+
+        if ($isDeleted !== null && $isDeleted !== $this->isDeleted) {
+            $this->isDeleted = $isDeleted;
+            $this->deletedAt = $isDeleted ? new \DateTimeImmutable() : null;
+        }
+
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
     public function getUid(): string
     {
         return $this->uid;
