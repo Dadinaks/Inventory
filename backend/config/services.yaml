@@ -28,5 +28,19 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
+    # Tous les services sous Dadinaks\Product\
+    Dadinaks\Product\:
+        resource: "../src/Product/*"
+        exclude: "../src/Product/{Domain,Tests}"
+        bind:
+            Dadinaks\Shared\Domain\Repository\RepositoryInterface: '@Dadinaks\Product\Infrastructure\Persistence\Doctrine\Repository\ProductReposity'
+
+    # Tous les services sous Dadinaks\Role\
+    Dadinaks\Role\:
+        resource: "../src/Role/*"
+        exclude: "../src/Role/{Domain,Tests}"
+        bind:
+            Dadinaks\Shared\Domain\Repository\RepositoryInterface: '@Dadinaks\Role\Infrastructure\Persistence\Repository\RoleRepository'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
