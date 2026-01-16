@@ -108,7 +108,7 @@ final class Product
 
         if ($isDeleted !== null && $isDeleted !== $this->isDeleted) {
             $this->isDeleted = $isDeleted;
-            $this->deletedAt = $isDeleted ? new \DateTimeImmutable() : null;
+            $this->deletedAt = null;
         }
 
         $this->updatedAt = new \DateTimeImmutable();

@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use ApiPlatform\OpenApi\Model\Operation;
 use Dadinaks\Product\Adapter\Dto\InputDto;
 use Dadinaks\Product\Adapter\Dto\OutputDto;
@@ -56,6 +57,17 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
             openapi: new Operation(
                 summary: 'Delete a product',
                 description: 'Deletes a specific product identified by its UID.'
+            )
+        ),
+        new Put(
+            uriTemplate: '/product/{uid}/restore',
+            input: false,
+            output: OutputDto::class,
+            processor: ProductProcessor::class,
+            provider: ProductProvider::class,
+            openapi: new Operation(
+                summary: 'Restore product',
+                description: 'Restores a specific product identified by its UID.'
             )
         ),
     ]

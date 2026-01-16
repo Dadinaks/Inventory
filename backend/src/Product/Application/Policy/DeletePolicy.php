@@ -10,4 +10,9 @@ final class DeletePolicy
     {
         return !$product->isDeleted();
     }
+
+    public function canRestore(Product $product): bool
+    {
+        return $product->isDeleted();
+    }
 }
