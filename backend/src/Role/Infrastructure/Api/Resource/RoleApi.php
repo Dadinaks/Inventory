@@ -3,6 +3,7 @@
 namespace Dadinaks\Role\Infrastructure\Api\Resource;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model\Operation;
@@ -31,6 +32,15 @@ use Dadinaks\Role\Infrastructure\Api\Provider\RoleProvider;
             openapi: new Operation(
                 summary: 'Retrieve all roles',
                 description: 'Fetches a collection of all roles.'
+            )
+        ),
+        new Get(
+            uriTemplate: '/roles/{uid}',
+            output: OutputDto::class,
+            provider: RoleProvider::class,
+            openapi: new Operation(
+                summary: 'Retrieve a role by UID',
+                description: 'Fetches a single role by its unique identifier.'
             )
         )
     ]
