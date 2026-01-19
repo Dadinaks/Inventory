@@ -2,10 +2,10 @@
 
 namespace Dadinaks\Role\Adapter\Dto;
 
-use Dadinaks\Shared\Adapter\Dto\inputDtoInterface;
+use Dadinaks\Shared\Adapter\Dto\InputDtoInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class InputDto implements inputDtoInterface
+final class InputDto implements InputDtoInterface
 {
     public function __construct(
         #[Assert\Sequentially([

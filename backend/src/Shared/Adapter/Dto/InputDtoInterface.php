@@ -24,4 +24,4 @@ namespace Dadinaks\Shared\Adapter\Dto;
  *
  * @author Dadinaks Cedrick <cedrick.henintsoa.8821@gmail.com>
  */
-interface inputDtoInterface {}
+interface InputDtoInterface {}
