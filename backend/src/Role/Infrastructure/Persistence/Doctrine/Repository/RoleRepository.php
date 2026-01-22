@@ -1,13 +1,14 @@
 <?php
 
-namespace Dadinaks\Role\Infrastructure\Persistence\Repository;
+namespace Dadinaks\Role\Infrastructure\Persistence\Doctrine\Repository;
 
 use Dadinaks\Role\Domain\Entity\Role;
-use Dadinaks\Role\Infrastructure\Persistence\Entity\RoleOrm;
+use Dadinaks\Role\Domain\Repository\RoleRepositoryInterface;
+use Dadinaks\Role\Infrastructure\Persistence\Doctrine\Entity\RoleOrm;
 use Dadinaks\Shared\Domain\Repository\RepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class RoleRepository implements RepositoryInterface
+final class RoleRepository implements RepositoryInterface, RoleRepositoryInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager

@@ -40,7 +40,14 @@ services:
         resource: "../src/Role/*"
         exclude: "../src/Role/{Domain,Tests}"
         bind:
-            Dadinaks\Shared\Domain\Repository\RepositoryInterface: '@Dadinaks\Role\Infrastructure\Persistence\Repository\RoleRepository'
+            Dadinaks\Shared\Domain\Repository\RepositoryInterface: '@Dadinaks\Role\Infrastructure\Persistence\Doctrine\Repository\RoleRepository'
+
+    # Tous les services sous Dadinaks\User\
+    Dadinaks\User\:
+        resource: "../src/User/*"
+        exclude: "../src/User/{Domain,Tests}"
+        bind:
+            Dadinaks\Shared\Domain\Repository\RepositoryInterface: '@Dadinaks\User\Infrastructure\Persistence\Doctrine\Repository\UserRepository'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

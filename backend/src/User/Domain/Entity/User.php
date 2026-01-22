@@ -19,16 +19,42 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private string $password;
 
-    private Role $roles;
+    private bool $isActive = true;
 
-    public function __construct(string $firstname, string $lastname, string $username, string $password, Role $roles)
+    private bool $isConnected = false;
+
+    private \DateTimeImmutable $createdAt;
+
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    private ?\DateTimeImmutable $deletedAt = null;
+
+    private Role $role;
+
+    public function __construct(string $firstname, string $lastname, string $username, string $password, Role $role)
     {
         $this->uid = Uuid::v7()->toString();
         $this->firstname = $firstname;
         $this->lastname = $lastname;
         $this->username = $username;
         $this->password = $password;
-        $this->roles = $roles;
+        $this->createdAt = new \DateTimeImmutable();
+        $this->isActive = true;
+        $this->isConnected = false;
+        $this->role = $role;
+    }
+
+    public static function fromState(array $state): self
+    {
+        $user = new self($state['firstname'], $state['lastname'], $state['username'], $state['password'], $state['role']);
+        $user->uid = $state['uid'];
+        $user->isActive = $state['isActive'];
+        $user->isConnected = $state['isConnected'];
+        $user->createdAt = $state['createdAt'];
+        $user->updatedAt = $state['updatedAt'] ?? null;
+        $user->deletedAt = $state['deletedAt'] ?? null;
+
+        return $user;
     }
 
     public function getUid(): string
@@ -53,11 +79,41 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        return [$this->roles->getRole()];
+        return [$this->role->getRole()];
+    }
+
+    public function getRole(): Role
+    {
+        return $this->role;
     }
 
     public function getUserIdentifier(): string
     {
         return $this->username;
+    }
+
+    public function getIsActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    public function getIsConnected(): bool
+    {
+        return $this->isConnected;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+    {
+        return $this->deletedAt;
     }
 }

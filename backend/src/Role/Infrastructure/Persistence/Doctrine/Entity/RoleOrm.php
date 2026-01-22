@@ -1,6 +1,6 @@
 <?php
 
-namespace Dadinaks\Role\Infrastructure\Persistence\Entity;
+namespace Dadinaks\Role\Infrastructure\Persistence\Doctrine\Entity;
 
 use Dadinaks\Role\Domain\Entity\Role;
 use Doctrine\ORM\Mapping as ORM;
