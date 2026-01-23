@@ -21,18 +21,28 @@ final class UserRepository implements RepositoryInterface, UserRepositoryInterfa
             throw new \InvalidArgumentException('Expected ' . UserOrm::class);
         }
 
-        $role = $this->entityManager
-            ->getRepository(RoleOrm::class)
-            ->findOneBy(['uid' => $entity->getRole()->getUid()]);
+        $orm = $this->entityManager->getRepository(UserOrm::class)->findOneBy(['uid' => $entity->getUid()]);
 
-        if (!$role) {
-            throw new \RuntimeException(
-                sprintf('Role with UID "%s" not found', $entity->getRole()->getUid())
-            );
+        if ($orm) {
+            $orm->setIsActive($entity->getIsActive());
+            $orm->setIsConnected($entity->getIsConnected());
+            $orm->setIsDeleted($entity->getIsDeleted());
+            $orm->setUpdatedAt($entity->getUpdatedAt());
+            $orm->setDeletedAt($entity->getDeletedAt());
+        } else {
+            $role = $this->entityManager
+                ->getRepository(RoleOrm::class)
+                ->findOneBy(['uid' => $entity->getRole()->getUid()]);
+
+            if (!$role) {
+                throw new \RuntimeException(
+                    sprintf('Role with UID "%s" not found', $entity->getRole()->getUid())
+                );
+            }
+
+            $orm = UserOrm::fromDomain($entity, $role);
+            $this->entityManager->persist($orm);
         }
-
-        $orm = UserOrm::fromDomain($entity, $role);
-        $this->entityManager->persist($orm);
 
         $this->entityManager->flush();
     }

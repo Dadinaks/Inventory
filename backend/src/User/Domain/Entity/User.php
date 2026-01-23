@@ -61,6 +61,12 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $user;
     }
 
+    public function disable(): bool
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+        return $this->isActive = false;
+    }
+
     public function getUid(): string
     {
         return $this->uid;
