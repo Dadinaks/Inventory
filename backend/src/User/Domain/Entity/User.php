@@ -81,6 +81,14 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->isDeleted = true;
     }
 
+    public function restore(): bool
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+        $this->deletedAt = null;
+        $this->isActive = true;
+        return $this->isDeleted = false;
+    }
+
     public function getUid(): string
     {
         return $this->uid;

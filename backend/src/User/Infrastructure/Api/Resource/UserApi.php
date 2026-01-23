@@ -5,6 +5,7 @@ namespace Dadinaks\User\Infrastructure\Api\Resource;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\OpenApi\Model\Operation;
@@ -65,6 +66,17 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             openapi: new Operation(
                 summary: 'Delete a user',
                 description: 'Deletes a specific user identified by its UID.'
+            )
+        ),
+        new Patch(
+            uriTemplate: '/user/{uid}/restore',
+            input: false,
+            output: OutputDto::class,
+            processor: UserProcessor::class,
+            provider: UserProvider::class,
+            openapi: new Operation(
+                summary: 'Restore a user',
+                description: 'Restores the user identified by the provided UID.'
             )
         )
     ]
