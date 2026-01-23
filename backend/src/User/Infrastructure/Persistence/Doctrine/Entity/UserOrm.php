@@ -37,6 +37,9 @@ final class UserOrm
     #[ORM\Column(type: 'boolean')]
     private bool $isConnected = false;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $isDeleted = false;
+
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE)]
     private \DateTimeImmutable $createdAt;
 
@@ -61,6 +64,7 @@ final class UserOrm
         $orm->password      = $user->getPassword();
         $orm->isActive      = $user->getIsActive();
         $orm->isConnected   = $user->getIsConnected();
+        $orm->isDeleted     = $user->getIsDeleted();
         $orm->createdAt     = $user->getCreatedAt();
         $orm->updatedAt     = $user->getUpdatedAt();
         $orm->deletedAt     = $user->getDeletedAt();
@@ -79,6 +83,7 @@ final class UserOrm
             'password'      => $this->password,
             'isActive'      => $this->isActive,
             'isConnected'   => $this->isConnected,
+            'isDeleted'     => $this->isDeleted,
             'createdAt'     => $this->createdAt,
             'updatedAt'     => $this->updatedAt,
             'deletedAt'     => $this->deletedAt,
@@ -114,6 +119,11 @@ final class UserOrm
     public function setIsConnected(bool $isConnected): void
     {
         $this->isConnected = $isConnected;
+    }
+
+    public function setIsDeleted(bool $isDeleted): void
+    {
+        $this->isDeleted = $isDeleted;
     }
 
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void

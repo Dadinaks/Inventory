@@ -77,6 +77,7 @@ final class CreateUser
             username: $user->getUserIdentifier(),
             isActive: $user->getIsActive(),
             isConnected: $user->getIsConnected(),
+            isDeleted: $user->getIsDeleted(),
             role: new RoleOutputDto(
                 uid: $role->getUid(),
                 role: $role->getRole(),

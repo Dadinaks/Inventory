@@ -23,6 +23,8 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private bool $isConnected = false;
 
+    private bool $isDeleted = false;
+
     private \DateTimeImmutable $createdAt;
 
     private ?\DateTimeImmutable $updatedAt = null;
@@ -41,6 +43,7 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAt = new \DateTimeImmutable();
         $this->isActive = true;
         $this->isConnected = false;
+        $this->isDeleted = false;
         $this->role = $role;
     }
 
@@ -50,6 +53,7 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
         $user->uid = $state['uid'];
         $user->isActive = $state['isActive'];
         $user->isConnected = $state['isConnected'];
+        $user->isDeleted = $state['isDeleted'];
         $user->createdAt = $state['createdAt'];
         $user->updatedAt = $state['updatedAt'] ?? null;
         $user->deletedAt = $state['deletedAt'] ?? null;
@@ -100,6 +104,11 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getIsConnected(): bool
     {
         return $this->isConnected;
+    }
+
+    public function getIsDeleted(): bool
+    {
+        return $this->isDeleted;
     }
 
     public function getCreatedAt(): \DateTimeImmutable
