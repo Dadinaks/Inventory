@@ -5,11 +5,13 @@ namespace Dadinaks\User\Application\UseCase;
 use Dadinaks\Shared\Domain\Repository\RepositoryInterface;
 use Dadinaks\User\Adapter\Dto\OutputDto;
 use Dadinaks\Role\Adapter\Dto\OutputDto as RoleOutputDto;
+use Dadinaks\User\Application\Policy\ActivePolicy;
 
 final class EnableUser
 {
     public function __construct(
         private readonly RepositoryInterface $repository,
+        private readonly ActivePolicy $activePolicy,
     ) {}
 
     public function execute(string $uid): OutputDto
@@ -22,7 +24,7 @@ final class EnableUser
             );
         }
 
-        if ($user->getIsActive()) {
+        if ($this->activePolicy->canEnable($user)) {
             throw new \DomainException('User is already enabled.');
         }
 
