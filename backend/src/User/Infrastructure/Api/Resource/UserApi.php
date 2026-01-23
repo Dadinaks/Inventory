@@ -3,6 +3,7 @@
 namespace Dadinaks\User\Infrastructure\Api\Resource;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
@@ -55,6 +56,17 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
                 description: 'Enables the user identified by the provided UID.'
             )
         ),
+        new Delete(
+            uriTemplate: '/user/{uid}/delete',
+            output: OutputDto::class,
+            processor: UserProcessor::class,
+            provider: UserProvider::class,
+            status: 200,
+            openapi: new Operation(
+                summary: 'Delete a user',
+                description: 'Deletes a specific user identified by its UID.'
+            )
+        )
     ]
 )]
 final class UserApi {}

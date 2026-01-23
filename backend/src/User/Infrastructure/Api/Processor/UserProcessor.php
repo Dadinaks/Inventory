@@ -2,12 +2,14 @@
 
 namespace Dadinaks\User\Infrastructure\Api\Processor;
 
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\State\ProcessorInterface;
 use Dadinaks\Shared\Adapter\Interface\PresenterInterface;
 use Dadinaks\User\Application\UseCase\CreateUser;
+use Dadinaks\User\Application\UseCase\DeleteUser;
 use Dadinaks\User\Application\UseCase\DisabledUser;
 use Dadinaks\User\Application\UseCase\EnableUser;
 
@@ -17,6 +19,7 @@ final class UserProcessor implements ProcessorInterface
         private readonly CreateUser $useCaseCreate,
         private readonly DisabledUser $useCaseDisable,
         private readonly EnableUser $useCaseEnable,
+        private readonly DeleteUser $useCaseDelete,
         private readonly PresenterInterface $presenter,
     ) {}
 
@@ -39,6 +42,16 @@ final class UserProcessor implements ProcessorInterface
                 return $this->presenter->presentSuccess(
                     201,
                     'Enable user successfully',
+                    $output
+                );
+            }
+
+            if ($operation instanceof Delete) {
+                $output = $this->useCaseDelete->execute($uriVariables['uid']);
+
+                return $this->presenter->presentSuccess(
+                    200,
+                    'User deleted successfully',
                     $output
                 );
             }
