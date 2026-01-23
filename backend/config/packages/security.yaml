@@ -5,7 +5,6 @@ security:
             algorithm: argon2id
             memory_cost: 65536
             time_cost: 4
-            threads: 2
 
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
