@@ -3,17 +3,20 @@
 namespace Dadinaks\User\Infrastructure\Api\Processor;
 
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\State\ProcessorInterface;
 use Dadinaks\Shared\Adapter\Interface\PresenterInterface;
 use Dadinaks\User\Application\UseCase\CreateUser;
 use Dadinaks\User\Application\UseCase\DisabledUser;
+use Dadinaks\User\Application\UseCase\EnableUser;
 
 final class UserProcessor implements ProcessorInterface
 {
     public function __construct(
         private readonly CreateUser $useCaseCreate,
         private readonly DisabledUser $useCaseDisable,
+        private readonly EnableUser $useCaseEnable,
         private readonly PresenterInterface $presenter,
     ) {}
 
@@ -26,6 +29,16 @@ final class UserProcessor implements ProcessorInterface
                 return $this->presenter->presentSuccess(
                     201,
                     'User disabled successfully',
+                    $output
+                );
+            }
+
+            if ($operation instanceof Post) {
+                $output = $this->useCaseEnable->execute($uriVariables['uid']);
+
+                return $this->presenter->presentSuccess(
+                    201,
+                    'Enable user successfully',
                     $output
                 );
             }

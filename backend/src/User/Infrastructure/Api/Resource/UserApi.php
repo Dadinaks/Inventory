@@ -44,7 +44,17 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
                 summary: 'Disable a user',
                 description: 'Disables the user identified by the provided UID.'
             )
-        )
+        ),
+        new Post(
+            uriTemplate: '/user/{uid}/enable',
+            input: false,
+            output: OutputDto::class,
+            processor: UserProcessor::class,
+            openapi: new Operation(
+                summary: 'Enable a user',
+                description: 'Enables the user identified by the provided UID.'
+            )
+        ),
     ]
 )]
 final class UserApi {}
