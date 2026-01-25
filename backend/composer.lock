@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7efb0143f5e6ee4872d2baf9ffeaf9d2",
+    "content-hash": "1e3d084befb1fb7461cdf29325c4eebb",
     "packages": [
         {
             "name": "api-platform/doctrine-common",
@@ -4620,16 +4620,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v8.0.3",
+            "version": "v8.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "514ec3aa7982f296b0ad0825f75b6be5779ae9e7"
+                "reference": "e33ba71e674a1bb16eb251688bd27c2ff67e0dc1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/514ec3aa7982f296b0ad0825f75b6be5779ae9e7",
-                "reference": "514ec3aa7982f296b0ad0825f75b6be5779ae9e7",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/e33ba71e674a1bb16eb251688bd27c2ff67e0dc1",
+                "reference": "e33ba71e674a1bb16eb251688bd27c2ff67e0dc1",
                 "shasum": ""
             },
             "require": {
@@ -4676,7 +4676,7 @@
             "description": "Defines an object-oriented layer for the HTTP specification",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-foundation/tree/v8.0.3"
+                "source": "https://github.com/symfony/http-foundation/tree/v8.0.4"
             },
             "funding": [
                 {
@@ -4696,7 +4696,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-23T14:52:06+00:00"
+            "time": "2026-01-09T12:15:10+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -5804,16 +5804,16 @@
         },
         {
             "name": "symfony/security-csrf",
-            "version": "v8.0.3",
+            "version": "v8.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-csrf.git",
-                "reference": "4f561535f9b61d72c422a8a9de49301d3846b98f"
+                "reference": "8be8bc615044c5911e6d15a5b0a80132068170c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-csrf/zipball/4f561535f9b61d72c422a8a9de49301d3846b98f",
-                "reference": "4f561535f9b61d72c422a8a9de49301d3846b98f",
+                "url": "https://api.github.com/repos/symfony/security-csrf/zipball/8be8bc615044c5911e6d15a5b0a80132068170c5",
+                "reference": "8be8bc615044c5911e6d15a5b0a80132068170c5",
                 "shasum": ""
             },
             "require": {
@@ -5851,7 +5851,7 @@
             "description": "Symfony Security Component - CSRF Library",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/security-csrf/tree/v8.0.3"
+                "source": "https://github.com/symfony/security-csrf/tree/v8.0.4"
             },
             "funding": [
                 {
@@ -5871,7 +5871,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-23T15:24:35+00:00"
+            "time": "2026-01-23T11:07:10+00:00"
         },
         {
             "name": "symfony/security-http",
