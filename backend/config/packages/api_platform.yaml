@@ -8,3 +8,8 @@ api_platform:
         formats:
             json: ["application/json"]
             jsonld: ["application/ld+json"]
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header

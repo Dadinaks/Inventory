@@ -10,7 +10,10 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\OpenApi\Model\Operation;
 use Dadinaks\User\Adapter\Dto\InputDto;
+use Dadinaks\User\Adapter\Dto\InputLoginDto;
 use Dadinaks\User\Adapter\Dto\OutputDto;
+use Dadinaks\User\Adapter\Dto\OutputLoginDto;
+use Dadinaks\User\Infrastructure\Api\Processor\LoginProcessor;
 use Dadinaks\User\Infrastructure\Api\Processor\UserProcessor;
 use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
 
@@ -19,6 +22,17 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
     description: 'User Resource',
     uriTemplate: '/user',
     operations: [
+        new Post(
+            name: 'app_login',
+            uriTemplate: '/login',
+            input: InputLoginDto::class,
+            output: OutputLoginDto::class,
+            processor: LoginProcessor::class,
+            openapi: new Operation(
+                summary: 'Log user',
+                description: 'Logs in a user with the provided credentials.'
+            )
+        ),
         new Post(
             input: InputDto::class,
             output: OutputDto::class,
