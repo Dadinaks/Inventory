@@ -37,6 +37,18 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             )
         ),
         new Post(
+            name: 'app_logout',
+            uriTemplate: '/logout',
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            input: InputLogoutDto::class,
+            output: OutputLogoutDto::class,
+            processor: LogoutProcessor::class,
+            openapi: new Operation(
+                summary: 'Disconnect a user',
+                description: 'Disconnect user with the provided credentials.'
+            )
+        ),
+        new Post(
             input: InputDto::class,
             output: OutputDto::class,
             processor: UserProcessor::class,
