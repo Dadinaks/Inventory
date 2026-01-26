@@ -95,6 +95,12 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->isConnected = true;
     }
 
+    public function markAsDisconnected(): bool
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+        return $this->isConnected = false;
+    }
+
     public function getUid(): string
     {
         return $this->uid;
