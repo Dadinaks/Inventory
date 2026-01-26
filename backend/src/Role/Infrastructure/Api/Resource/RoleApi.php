@@ -21,6 +21,7 @@ use Dadinaks\Role\Infrastructure\Api\Provider\RoleProvider;
             input: InputDto::class,
             output: OutputDto::class,
             processor: RoleProcessor::class,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
             openapi: new Operation(
                 summary: 'Create a new role',
                 description: 'Creates a new role with the provided details.'
@@ -29,6 +30,7 @@ use Dadinaks\Role\Infrastructure\Api\Provider\RoleProvider;
         new GetCollection(
             output: OutputDto::class,
             provider: RoleProvider::class,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
             openapi: new Operation(
                 summary: 'Retrieve all roles',
                 description: 'Fetches a collection of all roles.'
@@ -38,6 +40,7 @@ use Dadinaks\Role\Infrastructure\Api\Provider\RoleProvider;
             uriTemplate: '/roles/{uid}',
             output: OutputDto::class,
             provider: RoleProvider::class,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
             openapi: new Operation(
                 summary: 'Retrieve a role by UID',
                 description: 'Fetches a single role by its unique identifier.'

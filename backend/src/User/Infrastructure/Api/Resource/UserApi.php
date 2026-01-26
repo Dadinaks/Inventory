@@ -11,9 +11,12 @@ use ApiPlatform\Metadata\Put;
 use ApiPlatform\OpenApi\Model\Operation;
 use Dadinaks\User\Adapter\Dto\InputDto;
 use Dadinaks\User\Adapter\Dto\InputLoginDto;
+use Dadinaks\User\Adapter\Dto\InputLogoutDto;
 use Dadinaks\User\Adapter\Dto\OutputDto;
 use Dadinaks\User\Adapter\Dto\OutputLoginDto;
+use Dadinaks\User\Adapter\Dto\OutputLogoutDto;
 use Dadinaks\User\Infrastructure\Api\Processor\LoginProcessor;
+use Dadinaks\User\Infrastructure\Api\Processor\LogoutProcessor;
 use Dadinaks\User\Infrastructure\Api\Processor\UserProcessor;
 use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
 
@@ -37,6 +40,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             input: InputDto::class,
             output: OutputDto::class,
             processor: UserProcessor::class,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
             openapi: new Operation(
                 summary: 'Create a new user',
                 description: 'Creates a new user with the provided details.'
@@ -45,6 +49,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
         new GetCollection(
             output: OutputDto::class,
             provider: UserProvider::class,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
             openapi: new Operation(
                 summary: 'Retrieve a list of users',
                 description: 'Fetches a collection of all users in the system.'
@@ -56,6 +61,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             output: OutputDto::class,
             processor: UserProcessor::class,
             provider: UserProvider::class,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
             openapi: new Operation(
                 summary: 'Disable a user',
                 description: 'Disables the user identified by the provided UID.'
@@ -66,6 +72,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             input: false,
             output: OutputDto::class,
             processor: UserProcessor::class,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
             openapi: new Operation(
                 summary: 'Enable a user',
                 description: 'Enables the user identified by the provided UID.'
@@ -76,6 +83,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             output: OutputDto::class,
             processor: UserProcessor::class,
             provider: UserProvider::class,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
             status: 200,
             openapi: new Operation(
                 summary: 'Delete a user',
@@ -88,6 +96,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             output: OutputDto::class,
             processor: UserProcessor::class,
             provider: UserProvider::class,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
             openapi: new Operation(
                 summary: 'Restore a user',
                 description: 'Restores the user identified by the provided UID.'
