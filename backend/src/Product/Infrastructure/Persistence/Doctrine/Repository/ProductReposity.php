@@ -54,6 +54,8 @@ final class ProductReposity implements RepositoryInterface
                 }
 
                 $orm->setDeletedBy($deletedBy);
+            } else {
+                $orm->setDeletedBy(null);
             }
         } else {
             $createdBy = $this->entityManager
