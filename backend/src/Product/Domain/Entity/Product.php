@@ -2,6 +2,7 @@
 
 namespace Dadinaks\Product\Domain\Entity;
 
+use Dadinaks\User\Domain\Entity\User;
 use Symfony\Component\Uid\Uuid;
 
 /**
@@ -44,6 +45,12 @@ final class Product
 
     private ?\DateTimeImmutable $deletedAt = null;
 
+    private User $createdBy;
+
+    private ?User $updatedBy = null;
+
+    private ?User $deletedBy = null;
+
     /**
      * Creates a new Product instance.
      *
@@ -53,7 +60,7 @@ final class Product
      * @param string $code Business product code
      * @param string $name Product name
      */
-    public function __construct(string $code, string $name)
+    public function __construct(string $code, string $name, User $createdBy)
     {
         $this->uid        = Uuid::v7()->toString();
         $this->code       = $code;
@@ -61,6 +68,7 @@ final class Product
         $this->quantity   = 0;
         $this->threshold  = 0;
         $this->createdAt  = new \DateTimeImmutable();
+        $this->createdBy  = $createdBy();
     }
 
     /**
@@ -84,7 +92,7 @@ final class Product
      */
     public static function fromState(array $state): self
     {
-        $product = new self($state['code'], $state['name']);
+        $product = new self($state['code'], $state['name'], $state['createdBy']);
 
         $product->uid        = $state['uid'];
         $product->quantity   = $state['quantity'];
@@ -93,33 +101,48 @@ final class Product
         $product->createdAt  = $state['createdAt'];
         $product->updatedAt  = $state['updatedAt'];
         $product->deletedAt  = $state['deletedAt'];
+        $product->updatedBy  = $state['updatedBy'];
+        $product->deletedBy  = $state['deletedBy'];
 
         return $product;
     }
 
-    public function update(?int $threshold, ?bool $isDeleted): void
+    public function update(?int $threshold, ?bool $isDeleted, ?User $updatedBy): void
     {
-        if ($threshold !== null) {
-            if ($this->threshold === $threshold) {
-                throw new \DomainException(sprintf('Threshold is already set to %d.', $threshold));
+        if ($updatedBy !== null) {
+            $isUpdate = false;
+
+            if ($threshold !== null) {
+                if ($this->threshold === $threshold) {
+                    throw new \DomainException(sprintf('Threshold is already set to %d.', $threshold));
+                }
+                $this->threshold = $threshold;
+                $isUpdate = true;
             }
-            $this->threshold = $threshold;
-        }
 
-        if ($isDeleted !== null && $isDeleted !== $this->isDeleted) {
-            $this->isDeleted = $isDeleted;
-            $this->deletedAt = null;
-        }
+            if ($isDeleted !== null && $isDeleted !== $this->isDeleted) {
+                $this->isDeleted = $isDeleted;
+                $this->deletedAt = null;
+                $this->deletedBy = null;
+                $isUpdate = true;
+            }
 
-        $this->updatedAt = new \DateTimeImmutable();
+            if ($isUpdate) {
+                $this->updatedBy = $updatedBy;
+                $this->updatedAt = new \DateTimeImmutable();
+            }
+        } else {
+            throw new \InvalidArgumentException('Need user for updating product.');
+        }
     }
 
-    public function markAsDeleted(): void
+    public function markAsDeleted(User $deletedBy): void
     {
         if (!$this->isDeleted) {
             $this->isDeleted = true;
             $this->deletedAt = new \DateTimeImmutable();
             $this->updatedAt = new \DateTimeImmutable();
+            $this->deletedBy = $deletedBy;
         }
     }
 
@@ -166,5 +189,20 @@ final class Product
     public function getDeletedAt(): ?\DateTimeImmutable
     {
         return $this->deletedAt;
+    }
+
+    public function getCreatedBy(): User
+    {
+        return $this->createdBy;
+    }
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    public function getDeletedBy(): ?User
+    {
+        return $this->deletedBy;
     }
 }

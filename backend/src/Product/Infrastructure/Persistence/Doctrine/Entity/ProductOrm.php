@@ -3,6 +3,7 @@
 namespace Dadinaks\Product\Infrastructure\Persistence\Doctrine\Entity;
 
 use Dadinaks\Product\Domain\Entity\Product;
+use Dadinaks\User\Domain\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -42,6 +43,18 @@ final class ProductOrm
     #[ORM\Column(type: Types::DATETIMETZ_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $createdBy;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $updatedBy = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $deletedBy = null;
+
     public static function fromDomain(Product $product): self
     {
         $orm = new self();
@@ -54,6 +67,9 @@ final class ProductOrm
         $orm->createdAt  = $product->getCreatedAt();
         $orm->updatedAt  = $product->getUpdatedAt();
         $orm->deletedAt  = $product->getDeletedAt();
+        $orm->createdBy  = $product->getCreatedBy();
+        $orm->updatedBy  = $product->getUpdatedBy();
+        $orm->deletedBy  = $product->getDeletedBy();
 
         return $orm;
     }
@@ -69,7 +85,10 @@ final class ProductOrm
             'isDeleted' => $this->isDeleted,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
-            'deletedAt' => $this->deletedAt
+            'deletedAt' => $this->deletedAt,
+            'createdBy' => $this->createdBy,
+            'updatedBy' => $this->updatedBy,
+            'deletedBy' => $this->deletedBy
         ]);
     }
 
@@ -106,5 +125,20 @@ final class ProductOrm
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): ?\DateTimeImmutable
     {
         return $this->deletedAt = $deletedAt;
+    }
+
+    public function setCreatedBy(User $createdBy): User
+    {
+        return $this->createdBy = $createdBy;
+    }
+
+    public function setUpdatedBy(?User $updatedBy): ?User
+    {
+        return $this->updatedBy = $updatedBy;
+    }
+
+    public function setDeletedBy(?User $deletedBy): ?User
+    {
+        return $this->deletedBy = $deletedBy;
     }
 }

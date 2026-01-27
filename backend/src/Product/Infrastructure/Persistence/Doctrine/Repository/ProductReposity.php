@@ -26,6 +26,8 @@ final class ProductReposity implements RepositoryInterface
             $orm->setDeleted($entity->isDeleted());
             $orm->setDeletedAt($entity->getDeletedAt());
             $orm->setUpdatedAt($entity->getUpdatedAt());
+            $orm->setUpdatedBy($entity->getUpdatedBy());
+            $orm->setDeletedBy($entity->getDeletedBy());
         } else {
             $orm = ProductOrm::fromDomain($entity);
             $this->entityManager->persist($orm);

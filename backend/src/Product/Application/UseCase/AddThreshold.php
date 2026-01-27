@@ -4,6 +4,10 @@ namespace Dadinaks\Product\Application\UseCase;
 
 use Dadinaks\Product\Adapter\Dto\OutputDto;
 use Dadinaks\Shared\Domain\Repository\RepositoryInterface;
+use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserCreateDto;
+use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserUpdateDto;
+use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserDeleteDto;
+use Dadinaks\User\Domain\Entity\User;
 
 final class AddThreshold
 {
@@ -11,7 +15,7 @@ final class AddThreshold
         private RepositoryInterface $repository
     ) {}
 
-    public function execute(string $uid, int $threshold): OutputDto
+    public function execute(string $uid, int $threshold, User $updatedBy): OutputDto
     {
         $product = $this->repository->findByUid($uid);
 
@@ -21,7 +25,7 @@ final class AddThreshold
             );
         }
 
-        $product->update($threshold, null);
+        $product->update($threshold, null, $updatedBy);
         $this->repository->save($product);
 
         return new OutputDto(
@@ -33,7 +37,10 @@ final class AddThreshold
             isDeleted: $product->isDeleted(),
             createdAt: $product->getCreatedAt(),
             updatedAt: $product->getUpdatedAt(),
-            deletedAt: $product->getDeletedAt()
+            deletedAt: $product->getDeletedAt(),
+            createdBy: UserCreateDto::fromEntity($product->getCreatedBy()),
+            updatedBy: UserUpdateDto::fromEntity($product->getUpdatedBy()),
+            deletedBy: UserDeleteDto::fromEntity($product->getDeletedBy()),
         );
     }
 }

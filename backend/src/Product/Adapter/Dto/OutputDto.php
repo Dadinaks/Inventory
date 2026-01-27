@@ -3,6 +3,9 @@
 namespace Dadinaks\Product\Adapter\Dto;
 
 use Dadinaks\Shared\Adapter\Dto\OutputDtoInterface;
+use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserCreateDto;
+use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserUpdateDto;
+use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserDeleteDto;
 
 final class OutputDto implements OutputDtoInterface
 {
@@ -15,7 +18,10 @@ final class OutputDto implements OutputDtoInterface
         public readonly bool $isDeleted,
         public readonly \DateTimeImmutable $createdAt,
         public readonly ?\DateTimeImmutable $updatedAt,
-        public readonly ?\DateTimeImmutable $deletedAt
+        public readonly ?\DateTimeImmutable $deletedAt,
+        public readonly UserCreateDto $createdBy,
+        public readonly ?UserUpdateDto $updatedBy,
+        public readonly ?UserDeleteDto $deletedBy
     ) {}
 
     public function toArray(): array
@@ -29,7 +35,10 @@ final class OutputDto implements OutputDtoInterface
             'isDeleted'  => $this->isDeleted,
             'createdAt'  => $this->createdAt,
             'updatedAt'  => $this->updatedAt,
-            'deletedAt'  => $this->deletedAt
+            'deletedAt'  => $this->deletedAt,
+            'createdBy'  => $this->createdBy->toArray(),
+            'updatedBy'  => $this->updatedBy?->toArray(),
+            'deletedBy'  => $this->deletedBy?->toArray(),
         ];
     }
 }

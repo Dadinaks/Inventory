@@ -5,6 +5,11 @@ namespace Dadinaks\Product\Application\UseCase;
 use Dadinaks\Product\Adapter\Dto\OutputDto;
 use Dadinaks\Product\Domain\Entity\Product;
 use Dadinaks\Shared\Domain\Repository\RepositoryInterface;
+use Dadinaks\User\Domain\Entity\User;
+use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserCreateDto;
+use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserUpdateDto;
+use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserDeleteDto;
+
 
 final class CreateProduct
 {
@@ -12,7 +17,7 @@ final class CreateProduct
         private RepositoryInterface $repository
     ) {}
 
-    public function execute(string $name): OutputDto
+    public function execute(string $name, User $createdBy): OutputDto
     {
         if ($this->repository->findOneBy(['name' => $name])) {
             throw new \DomainException(
@@ -20,7 +25,7 @@ final class CreateProduct
             );
         }
 
-        $product = new Product($this->generateCode(), $name);
+        $product = new Product($this->generateCode(), $name, $createdBy);
         $this->repository->save($product);
 
         return new OutputDto(
@@ -32,7 +37,10 @@ final class CreateProduct
             isDeleted: $product->isDeleted(),
             createdAt: $product->getCreatedAt(),
             updatedAt: $product->getUpdatedAt(),
-            deletedAt: $product->getDeletedAt()
+            deletedAt: $product->getDeletedAt(),
+            createdBy: UserCreateDto::fromEntity($product->getCreatedBy()),
+            updatedBy: UserUpdateDto::fromEntity($product->getUpdatedBy()),
+            deletedBy: UserDeleteDto::fromEntity($product->getDeletedBy()),
         );
     }
 
