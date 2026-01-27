@@ -3,7 +3,7 @@
 namespace Dadinaks\Product\Infrastructure\Persistence\Doctrine\Entity;
 
 use Dadinaks\Product\Domain\Entity\Product;
-use Dadinaks\User\Domain\Entity\User;
+use Dadinaks\User\Infrastructure\Persistence\Doctrine\Entity\UserOrm as User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -55,7 +55,7 @@ final class ProductOrm
     #[ORM\JoinColumn(nullable: true)]
     private ?User $deletedBy = null;
 
-    public static function fromDomain(Product $product): self
+    public static function fromDomain(Product $product, User $createdBy): self
     {
         $orm = new self();
         $orm->uid   = $product->getUid();
@@ -67,7 +67,7 @@ final class ProductOrm
         $orm->createdAt  = $product->getCreatedAt();
         $orm->updatedAt  = $product->getUpdatedAt();
         $orm->deletedAt  = $product->getDeletedAt();
-        $orm->createdBy  = $product->getCreatedBy();
+        $orm->createdBy  = $createdBy;
         $orm->updatedBy  = $product->getUpdatedBy();
         $orm->deletedBy  = $product->getDeletedBy();
 
@@ -86,9 +86,9 @@ final class ProductOrm
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
             'deletedAt' => $this->deletedAt,
-            'createdBy' => $this->createdBy,
-            'updatedBy' => $this->updatedBy,
-            'deletedBy' => $this->deletedBy
+            'createdBy' => $this->createdBy->toDomain(),
+            'updatedBy' => $this->updatedBy?->toDomain(),
+            'deletedBy' => $this->deletedBy?->toDomain()
         ]);
     }
 

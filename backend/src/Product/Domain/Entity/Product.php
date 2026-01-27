@@ -68,7 +68,7 @@ final class Product
         $this->quantity   = 0;
         $this->threshold  = 0;
         $this->createdAt  = new \DateTimeImmutable();
-        $this->createdBy  = $createdBy();
+        $this->createdBy  = $createdBy;
     }
 
     /**

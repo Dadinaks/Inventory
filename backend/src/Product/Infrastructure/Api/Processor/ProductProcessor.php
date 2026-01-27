@@ -13,7 +13,6 @@ use Dadinaks\Product\Application\UseCase\RestoreProduct;
 use Symfony\Bundle\SecurityBundle\Security;
 use Dadinaks\Shared\Adapter\Interface\PresenterInterface;
 use Dadinaks\User\Domain\Entity\User;
-use Dadinaks\User\Infrastructure\Persistence\Doctrine\Repository\UserRepository;
 
 final class ProductProcessor implements ProcessorInterface
 {
@@ -24,21 +23,19 @@ final class ProductProcessor implements ProcessorInterface
         private readonly RestoreProduct $useCaseRestore,
         private readonly PresenterInterface $presenter,
         private readonly Security $security,
-        private readonly UserRepository $userRepository,
     ) {}
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         $user = $this->security->getUser();
-        
+
         if (!$user instanceof User) {
             throw new \LogicException('User must be authenticated to perform this action.');
         }
 
         if (isset($uriVariables['uid'])) {
             if ($operation instanceof Delete) {
-                $product = $this->useCaseDelete->execute($uriVariables['uid']);
-
+                $product = $this->useCaseDelete->execute($uriVariables['uid'], $user);
                 return $this->presenter->presentSuccess(
                     200,
                     'Product deleted successfully.',
@@ -47,7 +44,7 @@ final class ProductProcessor implements ProcessorInterface
             }
 
             if ($operation instanceof Put) {
-                $product = $this->useCaseRestore->execute($uriVariables['uid']);
+                $product = $this->useCaseRestore->execute($uriVariables['uid'], $user);
 
                 return $this->presenter->presentSuccess(
                     201,
@@ -58,7 +55,8 @@ final class ProductProcessor implements ProcessorInterface
 
             $product = $this->useCaseThereshold->execute(
                 $uriVariables['uid'],
-                $data->threshold
+                $data->threshold,
+                $user
             );
 
             return $this->presenter->presentSuccess(
@@ -70,6 +68,7 @@ final class ProductProcessor implements ProcessorInterface
 
         $output = $this->useCaseCreate->execute(
             $data->name,
+            $user
         );
 
         return $this->presenter->presentSuccess(

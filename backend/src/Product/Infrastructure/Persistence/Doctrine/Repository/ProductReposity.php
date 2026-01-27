@@ -5,6 +5,7 @@ namespace Dadinaks\Product\Infrastructure\Persistence\Doctrine\Repository;
 use Dadinaks\Product\Domain\Entity\Product;
 use Dadinaks\Product\Infrastructure\Persistence\Doctrine\Entity\ProductOrm;
 use Dadinaks\Shared\Domain\Repository\RepositoryInterface;
+use Dadinaks\User\Infrastructure\Persistence\Doctrine\Entity\UserOrm;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class ProductReposity implements RepositoryInterface
@@ -26,10 +27,46 @@ final class ProductReposity implements RepositoryInterface
             $orm->setDeleted($entity->isDeleted());
             $orm->setDeletedAt($entity->getDeletedAt());
             $orm->setUpdatedAt($entity->getUpdatedAt());
-            $orm->setUpdatedBy($entity->getUpdatedBy());
-            $orm->setDeletedBy($entity->getDeletedBy());
+
+            if ($entity->getUpdatedBy()) {
+                $updatedBy = $this->entityManager
+                    ->getRepository(UserOrm::class)
+                    ->findOneBy(['uid' => $entity->getUpdatedBy()->getUid()]);
+
+                if (!$updatedBy) {
+                    throw new \RuntimeException(
+                        sprintf('User with UID "%s" not found', $entity->getUpdatedBy()->getUid())
+                    );
+                }
+
+                $orm->setUpdatedBy($updatedBy);
+            }
+
+            if ($entity->getDeletedBy()) {
+                $deletedBy = $this->entityManager
+                    ->getRepository(UserOrm::class)
+                    ->findOneBy(['uid' => $entity->getDeletedBy()->getUid()]);
+
+                if (!$deletedBy) {
+                    throw new \RuntimeException(
+                        sprintf('User with UID "%s" not found', $entity->getDeletedBy()->getUid())
+                    );
+                }
+
+                $orm->setDeletedBy($deletedBy);
+            }
         } else {
-            $orm = ProductOrm::fromDomain($entity);
+            $createdBy = $this->entityManager
+                ->getRepository(UserOrm::class)
+                ->findOneBy(['uid' => $entity->getCreatedBy()->getUid()]);
+
+            if (!$createdBy) {
+                throw new \RuntimeException(
+                    sprintf('User with UID "%s" not found', $entity->getCreatedBy()->getUid())
+                );
+            }
+
+            $orm = ProductOrm::fromDomain($entity, $createdBy);
             $this->entityManager->persist($orm);
         }
 
