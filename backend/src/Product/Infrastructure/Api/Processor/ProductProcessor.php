@@ -12,6 +12,8 @@ use Dadinaks\Product\Application\UseCase\DeleteProduct;
 use Dadinaks\Product\Application\UseCase\RestoreProduct;
 use Symfony\Bundle\SecurityBundle\Security;
 use Dadinaks\Shared\Adapter\Interface\PresenterInterface;
+use Dadinaks\User\Domain\Entity\User;
+use Dadinaks\User\Infrastructure\Persistence\Doctrine\Repository\UserRepository;
 
 final class ProductProcessor implements ProcessorInterface
 {
@@ -22,10 +24,17 @@ final class ProductProcessor implements ProcessorInterface
         private readonly RestoreProduct $useCaseRestore,
         private readonly PresenterInterface $presenter,
         private readonly Security $security,
+        private readonly UserRepository $userRepository,
     ) {}
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
+        $user = $this->security->getUser();
+        
+        if (!$user instanceof User) {
+            throw new \LogicException('User must be authenticated to perform this action.');
+        }
+
         if (isset($uriVariables['uid'])) {
             if ($operation instanceof Delete) {
                 $product = $this->useCaseDelete->execute($uriVariables['uid']);
