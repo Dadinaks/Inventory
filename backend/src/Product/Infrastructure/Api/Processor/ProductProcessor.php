@@ -10,6 +10,7 @@ use Dadinaks\Product\Application\UseCase\AddThreshold;
 use Dadinaks\Product\Application\UseCase\CreateProduct;
 use Dadinaks\Product\Application\UseCase\DeleteProduct;
 use Dadinaks\Product\Application\UseCase\RestoreProduct;
+use Symfony\Bundle\SecurityBundle\Security;
 use Dadinaks\Shared\Adapter\Interface\PresenterInterface;
 
 final class ProductProcessor implements ProcessorInterface
@@ -20,6 +21,7 @@ final class ProductProcessor implements ProcessorInterface
         private readonly DeleteProduct $useCaseDelete,
         private readonly RestoreProduct $useCaseRestore,
         private readonly PresenterInterface $presenter,
+        private readonly Security $security,
     ) {}
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
