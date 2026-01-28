@@ -34,6 +34,12 @@ security:
         - { path: ^/docs, roles: IS_AUTHENTICATED_FULLY } # Allows accessing API documentations and Swagger UI docs
         - { path: ^/contexts, roles: IS_AUTHENTICATED_FULLY } # Allows accessing the Swagger UI contexts
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/logout, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/, roles: [ROLE_ADMIN, ROLE_USER, ROLE_EMPLOYEE] }
+
+    role_hierarchy:
+        ROLE_EMPLOYEE: [ROLE_USER, ROLE_EMPLOYEE]
+        ROLE_ADMIN: [ROLE_ADMIN]
 
 when@test:
     security:
