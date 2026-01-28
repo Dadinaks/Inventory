@@ -53,7 +53,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             input: InputDto::class,
             output: OutputDto::class,
             processor: UserProcessor::class,
-            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            security: "is_granted('ROLE_ADMIN')",
             openapi: new Operation(
                 summary: 'Create a new user',
                 description: 'Creates a new user with the provided details.'
@@ -76,7 +76,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             output: OutputDto::class,
             processor: UserProcessor::class,
             provider: UserProvider::class,
-            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            security: "is_granted('ROLE_ADMIN')",
             openapi: new Operation(
                 summary: 'Disable a user',
                 description: 'Disables the user identified by the provided UID.'
@@ -88,7 +88,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             input: false,
             output: OutputDto::class,
             processor: UserProcessor::class,
-            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            security: "is_granted('ROLE_ADMIN')",
             openapi: new Operation(
                 summary: 'Enable a user',
                 description: 'Enables the user identified by the provided UID.'
@@ -100,7 +100,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             output: OutputDto::class,
             processor: UserProcessor::class,
             provider: UserProvider::class,
-            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            security: "is_granted('ROLE_ADMIN')",
             status: 200,
             openapi: new Operation(
                 summary: 'Delete a user',
@@ -114,7 +114,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             output: OutputDto::class,
             processor: UserProcessor::class,
             provider: UserProvider::class,
-            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            security: "is_granted('ROLE_ADMIN')",
             openapi: new Operation(
                 summary: 'Restore a user',
                 description: 'Restores the user identified by the provided UID.'

@@ -25,7 +25,7 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
             input: InputDto::class,
             output: OutputDto::class,
             processor: ProductProcessor::class,
-            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            security: "is_granted('ROLE_EMPLOYEE')",
             openapi: new Operation(
                 summary: 'Create a new product',
                 description: 'Creates a new product with the provided details.'
@@ -48,7 +48,7 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
             output: OutputDto::class,
             processor: ProductProcessor::class,
             provider: ProductProvider::class,
-            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            security: "is_granted('ROLE_EMPLOYEE')",
             openapi: new Operation(
                 summary: 'Update product threshold',
                 description: 'Updates the threshold value for a specific product identified by its UID.'
@@ -60,7 +60,7 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
             output: OutputDto::class,
             processor: ProductProcessor::class,
             provider: ProductProvider::class,
-            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            security: "is_granted('ROLE_EMPLOYEE')",
             status: 200,
             openapi: new Operation(
                 summary: 'Delete a product',
@@ -74,7 +74,7 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
             output: OutputDto::class,
             processor: ProductProcessor::class,
             provider: ProductProvider::class,
-            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            security: "is_granted('ROLE_ADMIN')",
             openapi: new Operation(
                 summary: 'Restore product',
                 description: 'Restores a specific product identified by its UID.'
