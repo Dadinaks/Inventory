@@ -21,6 +21,7 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
     uriTemplate: '/products',
     operations: [
         new Post(
+            name: 'app_create_product',
             input: InputDto::class,
             output: OutputDto::class,
             processor: ProductProcessor::class,
@@ -31,6 +32,7 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
             )
         ),
         new GetCollection(
+            name: 'app_list_products',
             output: OutputDto::class,
             provider: ProductProvider::class,
             security: "is_granted('IS_AUTHENTICATED_FULLY')",
@@ -40,6 +42,7 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
             )
         ),
         new Patch(
+            name: 'app_add_threshold',
             uriTemplate: '/product/{uid}/threshold',
             input: ThresholdDto::class,
             output: OutputDto::class,
@@ -52,6 +55,7 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
             )
         ),
         new Delete(
+            name: 'app_delete_product',
             uriTemplate: '/product/{uid}/delete',
             output: OutputDto::class,
             processor: ProductProcessor::class,
@@ -64,6 +68,7 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
             )
         ),
         new Put(
+            name: 'app_restore_product',
             uriTemplate: '/product/{uid}/restore',
             input: false,
             output: OutputDto::class,

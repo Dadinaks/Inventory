@@ -49,6 +49,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             )
         ),
         new Post(
+            name: 'app_user_create',
             input: InputDto::class,
             output: OutputDto::class,
             processor: UserProcessor::class,
@@ -59,6 +60,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             )
         ),
         new GetCollection(
+            name: 'app_user_list',
             output: OutputDto::class,
             provider: UserProvider::class,
             security: "is_granted('IS_AUTHENTICATED_FULLY')",
@@ -68,6 +70,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             )
         ),
         new Put(
+            name: 'app_disable_user',
             uriTemplate: '/user/{uid}/disable',
             input: false,
             output: OutputDto::class,
@@ -80,6 +83,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             )
         ),
         new Post(
+            name: 'app_enable_user',
             uriTemplate: '/user/{uid}/enable',
             input: false,
             output: OutputDto::class,
@@ -91,6 +95,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             )
         ),
         new Delete(
+            name: 'app_delete_user',
             uriTemplate: '/user/{uid}/delete',
             output: OutputDto::class,
             processor: UserProcessor::class,
@@ -103,6 +108,7 @@ use Dadinaks\User\Infrastructure\Api\Provider\UserProvider;
             )
         ),
         new Patch(
+            name: 'app_restore_user',
             uriTemplate: '/user/{uid}/restore',
             input: false,
             output: OutputDto::class,

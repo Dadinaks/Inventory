@@ -18,6 +18,7 @@ use Dadinaks\Role\Infrastructure\Api\Provider\RoleProvider;
     uriTemplate: '/roles',
     operations: [
         new Post(
+            name: 'app_create_role',
             input: InputDto::class,
             output: OutputDto::class,
             processor: RoleProcessor::class,
@@ -28,6 +29,7 @@ use Dadinaks\Role\Infrastructure\Api\Provider\RoleProvider;
             )
         ),
         new GetCollection(
+            name: 'app_list_roles',
             output: OutputDto::class,
             provider: RoleProvider::class,
             security: "is_granted('IS_AUTHENTICATED_FULLY')",
@@ -37,6 +39,7 @@ use Dadinaks\Role\Infrastructure\Api\Provider\RoleProvider;
             )
         ),
         new Get(
+            name: 'app_get_one_role',
             uriTemplate: '/roles/{uid}',
             output: OutputDto::class,
             provider: RoleProvider::class,
