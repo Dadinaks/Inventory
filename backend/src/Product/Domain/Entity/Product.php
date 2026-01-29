@@ -146,6 +146,30 @@ final class Product
         }
     }
 
+    public function addQuantity(int $quantity): void
+    {
+        if ($quantity <= 0) {
+            throw new \InvalidArgumentException('Quantity to add must be positive.');
+        }
+
+        $this->quantity += $quantity;
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function decreaseQuantity(int $quantity): void
+    {
+        if ($quantity <= 0) {
+            throw new \InvalidArgumentException('Quantity to decrease must be positive.');
+        }
+
+        if ($this->quantity < $quantity) {
+            throw new \DomainException('Insufficient product quantity in stock. The available quantity is: ' . $this->quantity);
+        }
+
+        $this->quantity -= $quantity;
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
     public function getUid(): string
     {
         return $this->uid;

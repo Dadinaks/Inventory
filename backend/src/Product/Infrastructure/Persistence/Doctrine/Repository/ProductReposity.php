@@ -3,12 +3,13 @@
 namespace Dadinaks\Product\Infrastructure\Persistence\Doctrine\Repository;
 
 use Dadinaks\Product\Domain\Entity\Product;
+use Dadinaks\Product\Domain\Repository\ProductRepositoryInterface;
 use Dadinaks\Product\Infrastructure\Persistence\Doctrine\Entity\ProductOrm;
 use Dadinaks\Shared\Domain\Repository\RepositoryInterface;
 use Dadinaks\User\Infrastructure\Persistence\Doctrine\Entity\UserOrm;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class ProductReposity implements RepositoryInterface
+final class ProductReposity implements RepositoryInterface, ProductRepositoryInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager
