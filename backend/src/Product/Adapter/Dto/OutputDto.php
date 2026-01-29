@@ -3,9 +3,7 @@
 namespace Dadinaks\Product\Adapter\Dto;
 
 use Dadinaks\Shared\Adapter\Dto\OutputDtoInterface;
-use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserCreateDto;
-use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserUpdateDto;
-use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserDeleteDto;
+use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserDto;
 
 final class OutputDto implements OutputDtoInterface
 {
@@ -19,9 +17,9 @@ final class OutputDto implements OutputDtoInterface
         public readonly \DateTimeImmutable $createdAt,
         public readonly ?\DateTimeImmutable $updatedAt,
         public readonly ?\DateTimeImmutable $deletedAt,
-        public readonly UserCreateDto $createdBy,
-        public readonly ?UserUpdateDto $updatedBy,
-        public readonly ?UserDeleteDto $deletedBy
+        public readonly UserDto $createdBy,
+        public readonly ?UserDto $updatedBy,
+        public readonly ?UserDto $deletedBy
     ) {}
 
     public function toArray(): array

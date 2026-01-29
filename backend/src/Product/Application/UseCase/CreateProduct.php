@@ -6,9 +6,7 @@ use Dadinaks\Product\Adapter\Dto\OutputDto;
 use Dadinaks\Product\Domain\Entity\Product;
 use Dadinaks\Shared\Domain\Repository\RepositoryInterface;
 use Dadinaks\User\Domain\Entity\User;
-use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserCreateDto;
-use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserUpdateDto;
-use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserDeleteDto;
+use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserDto;
 
 
 final class CreateProduct
@@ -38,9 +36,9 @@ final class CreateProduct
             createdAt: $product->getCreatedAt(),
             updatedAt: $product->getUpdatedAt(),
             deletedAt: $product->getDeletedAt(),
-            createdBy: UserCreateDto::fromEntity($product->getCreatedBy()),
-            updatedBy: UserUpdateDto::fromEntity($product->getUpdatedBy()),
-            deletedBy: UserDeleteDto::fromEntity($product->getDeletedBy()),
+            createdBy: UserDto::fromEntity($product->getCreatedBy()),
+            updatedBy: UserDto::fromEntity($product->getUpdatedBy()),
+            deletedBy: UserDto::fromEntity($product->getDeletedBy()),
         );
     }
 
