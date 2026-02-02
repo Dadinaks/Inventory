@@ -50,8 +50,8 @@ final class NewEntry
             deletedAt: $entry->getDeletedAt(),
             product: ProductDto::fromEntity($entry->getProduct()),
             createdBy: UserDto::fromEntity($entry->getCreatedBy()),
-            updatedBy: null,
-            deletedBy: null
+            updatedBy: $entry->getUpdatedBy() ? UserDto::fromEntity($entry->getUpdatedBy()) : null,
+            deletedBy: $entry->getDeletedBy() ? UserDto::fromEntity($entry->getDeletedBy()) : null,
         );
     }
 }
