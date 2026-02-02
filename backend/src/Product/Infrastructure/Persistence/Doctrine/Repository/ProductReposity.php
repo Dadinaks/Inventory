@@ -28,6 +28,7 @@ final class ProductReposity implements RepositoryInterface, ProductRepositoryInt
             $orm->setDeleted($entity->isDeleted());
             $orm->setDeletedAt($entity->getDeletedAt());
             $orm->setUpdatedAt($entity->getUpdatedAt());
+            $orm->setQuantity($entity->getQuantity());
 
             if ($entity->getUpdatedBy()) {
                 $updatedBy = $this->entityManager

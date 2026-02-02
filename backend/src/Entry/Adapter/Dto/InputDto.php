@@ -13,6 +13,6 @@ final class InputDto implements InputDtoInterface
             new Assert\Positive(message: 'The quantity must be a positive number.'),
         ])]
         public readonly int $quantity,
-        public readonly string $productId
+        public readonly string $productUid
     ) {}
 }

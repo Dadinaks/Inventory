@@ -49,6 +49,13 @@ services:
         bind:
             Dadinaks\Shared\Domain\Repository\RepositoryInterface: '@Dadinaks\User\Infrastructure\Persistence\Doctrine\Repository\UserRepository'
 
+    # Tous les services sous Dadinaks\User\
+    Dadinaks\Entry\:
+        resource: "../src/Entry/*"
+        exclude: "../src/Entry/{Domain,Tests}"
+        bind:
+            Dadinaks\Shared\Domain\Repository\RepositoryInterface: '@Dadinaks\Entry\Infrastructure\Persistence\Doctrine\Repository\EntryRepository'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     Dadinaks\User\Infrastructure\Security\EventListener\JWTInvalidationListener:

@@ -68,8 +68,8 @@ final class ProductOrm
         $orm->updatedAt  = $product->getUpdatedAt();
         $orm->deletedAt  = $product->getDeletedAt();
         $orm->createdBy  = $createdBy;
-        $orm->updatedBy  = $product->getUpdatedBy();
-        $orm->deletedBy  = $product->getDeletedBy();
+        $orm->updatedBy  = $product->getUpdatedBy() ? null : null;
+        $orm->deletedBy  = $product->getDeletedBy() ? null : null;
 
         return $orm;
     }

@@ -31,9 +31,6 @@ final class NewEntry
             throw new \DomainException('Quantity must be greater than zero.');
         }
 
-        $product->addQuantity($quantity);
-        $this->productRepository->save($product);
-
         $entry = new Entry(
             quantity: $quantity,
             product: $product,
@@ -41,6 +38,8 @@ final class NewEntry
         );
 
         $this->repository->save($entry);
+        $product->addQuantity($quantity, $createdBy);
+        $this->productRepository->save($product);
 
         return new OutputDto(
             uid: $entry->getUid(),
