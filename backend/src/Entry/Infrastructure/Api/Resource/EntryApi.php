@@ -3,6 +3,7 @@
 namespace Dadinaks\Entry\Infrastructure\Api\Resource;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model\Operation;
@@ -37,6 +38,17 @@ use Dadinaks\Entry\Infrastructure\Api\Provider\EntryProvider;
                 description: 'Retrieves a collection of all entries in the system.'
             )
         ),
+        new Get(
+            name: 'app_show_entry',
+            uriTemplate: '/entries/{uid}',
+            output: OutputDto::class,
+            provider: EntryProvider::class,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            openapi: new Operation(
+                summary: 'Retrieve a specific entry',
+                description: 'Retrieves the details of a specific entry by its unique identifier.'
+            )
+        )
     ]
 )]
 final class EntryApi {}
