@@ -5,10 +5,12 @@ namespace Dadinaks\Entry\Infrastructure\Api\Resource;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model\Operation;
 use Dadinaks\Entry\Adapter\Dto\InputDto;
 use Dadinaks\Entry\Adapter\Dto\OutputDto;
+use Dadinaks\Entry\Adapter\Dto\UpdateDto;
 use Dadinaks\Entry\Infrastructure\Api\Processor\EntryProcessor;
 use Dadinaks\Entry\Infrastructure\Api\Provider\EntryProvider;
 
@@ -48,7 +50,20 @@ use Dadinaks\Entry\Infrastructure\Api\Provider\EntryProvider;
                 summary: 'Retrieve a specific entry',
                 description: 'Retrieves the details of a specific entry by its unique identifier.'
             )
-        )
+        ),
+        new Patch(
+            name: 'app_edit_entry',
+            uriTemplate: '/entries/{uid}/edit',
+            input: UpdateDto::class,
+            output: OutputDto::class,
+            processor: EntryProcessor::class,
+            provider: EntryProvider::class,
+            security: "is_granted('ROLE_EMPLOYEE')",
+            openapi: new Operation(
+                summary: 'Update an existing entry',
+                description: 'Updates the details of an existing entry.'
+            )
+        ),
     ]
 )]
 final class EntryApi {}
