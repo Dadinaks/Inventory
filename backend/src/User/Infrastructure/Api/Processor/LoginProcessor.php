@@ -14,7 +14,7 @@ final class LoginProcessor implements ProcessorInterface
         private readonly PresenterInterface $presenter,
     ) {}
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         $output = $this->useCaseLogin->execute(
             $data->username,

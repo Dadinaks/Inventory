@@ -26,7 +26,7 @@ final class UserProcessor implements ProcessorInterface
         private readonly PresenterInterface $presenter,
     ) {}
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         if (isset($uriVariables['uid'])) {
             if ($operation instanceof Put) {

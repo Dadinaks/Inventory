@@ -22,7 +22,7 @@ final class EntryProcessor implements ProcessorInterface
         private readonly Security $security,
     ) {}
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         $user = $this->security->getUser();
 
