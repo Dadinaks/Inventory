@@ -21,26 +21,63 @@ final class EntryRepository implements RepositoryInterface
             throw new \InvalidArgumentException('Expected ' . Entry::class);
         }
 
-        $product = $this->entityManager
-            ->getRepository(Product::class)
-            ->findOneBy(['uid' => $entity->getProduct()->getUid()]);
+        $orm = $this->entityManager->getRepository(EntryOrm::class)->findOneBy(['uid' => $entity->getUid()]);
 
-        if (!$product) {
-            throw new \RuntimeException("Product ORM not found for UID: " . $entity->getProduct()->getUid());
+        if ($orm) {
+            $orm->setQuantity($entity->getQuantity());
+            $orm->setUpdatedAt($entity->getUpdatedAt());
+            $orm->setDeletedAt($entity->getDeletedAt());
+            $orm->setIsDeleted($entity->isDeleted());
+
+            if ($entity->getUpdatedBy()) {
+                $updatedBy = $this->entityManager
+                    ->getRepository(User::class)
+                    ->findOneBy(['uid' => $entity->getUpdatedBy()->getUid()]);
+
+                if (!$updatedBy) {
+                    throw new \RuntimeException(
+                        sprintf('User with UID "%s" not found', $entity->getUpdatedBy()->getUid())
+                    );
+                }
+
+                $orm->setUpdatedBy($updatedBy);
+            }
+
+            if ($entity->getDeletedBy()) {
+                $deletedBy = $this->entityManager
+                    ->getRepository(User::class)
+                    ->findOneBy(['uid' => $entity->getDeletedBy()->getUid()]);
+
+                if (!$updatedBy) {
+                    throw new \RuntimeException(
+                        sprintf('User with UID "%s" not found', $entity->getDeletedBy()->getUid())
+                    );
+                }
+
+                $orm->setDeletedBy($deletedBy);
+            }
+        } else {
+            $product = $this->entityManager
+                ->getRepository(Product::class)
+                ->findOneBy(['uid' => $entity->getProduct()->getUid()]);
+
+            if (!$product) {
+                throw new \RuntimeException("Product ORM not found for UID: " . $entity->getProduct()->getUid());
+            }
+
+            $createdBy = $this->entityManager
+                ->getRepository(User::class)
+                ->findOneBy(['uid' => $entity->getCreatedBy()->getUid()]);
+
+            if (!$createdBy) {
+                throw new \RuntimeException(
+                    sprintf('User with UID "%s" not found', $entity->getCreatedBy()->getUid())
+                );
+            }
+
+            $orm = EntryOrm::fromDomain($entity, $product, $createdBy);
+            $this->entityManager->persist($orm);
         }
-
-        $createdBy = $this->entityManager
-            ->getRepository(User::class)
-            ->findOneBy(['uid' => $entity->getCreatedBy()->getUid()]);
-
-        if (!$createdBy) {
-            throw new \RuntimeException(
-                sprintf('User with UID "%s" not found', $entity->getCreatedBy()->getUid())
-            );
-        }
-
-        $orm = EntryOrm::fromDomain($entity, $product, $createdBy);
-        $this->entityManager->persist($orm);
 
         $this->entityManager->flush();
     }
