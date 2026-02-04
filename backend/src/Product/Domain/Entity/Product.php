@@ -157,7 +157,7 @@ final class Product
         $this->updatedBy = $updatedBy;
     }
 
-    public function decreaseQuantity(int $quantity): void
+    public function decreaseQuantity(int $quantity, User $updatedBy): void
     {
         if ($quantity <= 0) {
             throw new \InvalidArgumentException('Quantity to decrease must be positive.');
@@ -169,6 +169,7 @@ final class Product
 
         $this->quantity -= $quantity;
         $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedBy = $updatedBy;
     }
 
     public function getUid(): string

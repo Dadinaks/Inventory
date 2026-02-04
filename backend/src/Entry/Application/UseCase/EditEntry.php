@@ -16,7 +16,7 @@ final class EditEntry
         private readonly ProductRepositoryInterface $productRepository
     ) {}
 
-    public function execute(string $uid, int $quantity, User $updateBy): OutputDto
+    public function execute(string $uid, int $quantity, User $updatedBy): OutputDto
     {
         $entry = $this->repository->findByUid($uid);
 
@@ -32,16 +32,16 @@ final class EditEntry
             throw new \DomainException('Quantity must be greater than zero.');
         }
 
-        $product->decreaseQuantity($entry->getQuantity());
+        $product->decreaseQuantity($entry->getQuantity(), $updatedBy);
         $this->productRepository->save($product);
 
         $entry->update(
             quantity: $quantity,
             isDeleted: null,
-            updatedBy: $updateBy,
+            updatedBy: $updatedBy,
         );
 
-        $product->addQuantity($quantity, $updateBy);
+        $product->addQuantity($quantity, $updatedBy);
         $this->productRepository->save($product);
         $this->repository->save($entry);
 
