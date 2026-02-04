@@ -48,7 +48,7 @@ final class EntryRepository implements RepositoryInterface
                     ->getRepository(User::class)
                     ->findOneBy(['uid' => $entity->getDeletedBy()->getUid()]);
 
-                if (!$updatedBy) {
+                if (!$deletedBy) {
                     throw new \RuntimeException(
                         sprintf('User with UID "%s" not found', $entity->getDeletedBy()->getUid())
                     );

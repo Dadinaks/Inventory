@@ -2,9 +2,11 @@
 
 namespace Dadinaks\Entry\Infrastructure\Api\Processor;
 
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\State\ProcessorInterface;
+use Dadinaks\Entry\Application\UseCase\DeleteEntry;
 use Dadinaks\Entry\Application\UseCase\EditEntry;
 use Dadinaks\Entry\Application\UseCase\NewEntry;
 use Dadinaks\Product\Domain\Repository\ProductRepositoryInterface;
@@ -17,6 +19,7 @@ final class EntryProcessor implements ProcessorInterface
     public function __construct(
         private readonly NewEntry $newUseCase,
         private readonly EditEntry $editUseCase,
+        private readonly DeleteEntry $deleteUseCase,
         private readonly PresenterInterface $presenter,
         private readonly ProductRepositoryInterface $repository,
         private readonly Security $security,
@@ -31,11 +34,24 @@ final class EntryProcessor implements ProcessorInterface
         }
 
         if (isset($uriVariables['uid'])) {
+            if ($operation instanceof Delete) {
+                $entry = $this->deleteUseCase->execute(
+                    uid: $uriVariables['uid'],
+                    deletedBy: $user
+                );
+
+                return $this->presenter->presentSuccess(
+                    code: 200,
+                    message: "Entry deleted successfully.",
+                    data: $entry
+                );
+            }
+
             if ($operation instanceof Patch) {
                 $entry = $this->editUseCase->execute(
                     uid: $uriVariables['uid'],
                     quantity: $data->quantity,
-                    updateBy: $user
+                    updatedBy: $user
                 );
 
                 return $this->presenter->presentSuccess(

@@ -3,6 +3,7 @@
 namespace Dadinaks\Entry\Infrastructure\Api\Resource;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
@@ -64,6 +65,19 @@ use Dadinaks\Entry\Infrastructure\Api\Provider\EntryProvider;
                 description: 'Updates the details of an existing entry.'
             )
         ),
+        new Delete(
+            name: 'app_delete_entry',
+            uriTemplate: '/entries/{uid}/delete',
+            output: OutputDto::class,
+            processor: EntryProcessor::class,
+            provider: EntryProvider::class,
+            security: "is_granted('ROLE_EMPLOYEE')",
+            status: 200,
+            openapi: new Operation(
+                summary: 'Delete an entry',
+                description: 'Deletes a specific entry from the system.'
+            )
+        )
     ]
 )]
 final class EntryApi {}
