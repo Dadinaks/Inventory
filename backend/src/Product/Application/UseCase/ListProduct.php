@@ -31,9 +31,9 @@ final class ListProduct
                 createdAt: $product->getCreatedAt(),
                 updatedAt: $product->getUpdatedAt(),
                 deletedAt: $product->getDeletedAt(),
-                createdBy: UserDto::fromEntity($product->getCreatedBy()),
-                updatedBy: UserDto::fromEntity($product->getUpdatedBy()),
-                deletedBy: UserDto::fromEntity($product->getDeletedBy()),
+                createdBy: UserDto::fromEntity(user: $product->getCreatedBy()),
+                updatedBy: UserDto::fromEntity(user: $product->getUpdatedBy()),
+                deletedBy: UserDto::fromEntity(user: $product->getDeletedBy()),
             ),
             $product
         );

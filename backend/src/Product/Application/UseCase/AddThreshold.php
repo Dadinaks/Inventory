@@ -15,7 +15,7 @@ final class AddThreshold
 
     public function execute(string $uid, int $threshold, User $updatedBy): OutputDto
     {
-        $product = $this->repository->findByUid($uid);
+        $product = $this->repository->findByUid(uid: $uid);
 
         if (!$product) {
             throw new \DomainException(
@@ -23,8 +23,8 @@ final class AddThreshold
             );
         }
 
-        $product->update($threshold, null, $updatedBy);
-        $this->repository->save($product);
+        $product->update(threshold: $threshold, isDeleted: null, updatedBy: $updatedBy);
+        $this->repository->save(entity: $product);
 
         return new OutputDto(
             uid: $product->getUid(),
@@ -36,9 +36,9 @@ final class AddThreshold
             createdAt: $product->getCreatedAt(),
             updatedAt: $product->getUpdatedAt(),
             deletedAt: $product->getDeletedAt(),
-            createdBy: UserDto::fromEntity($product->getCreatedBy()),
-            updatedBy: UserDto::fromEntity($product->getUpdatedBy()),
-            deletedBy: UserDto::fromEntity($product->getDeletedBy()),
+            createdBy: UserDto::fromEntity(user: $product->getCreatedBy()),
+            updatedBy: UserDto::fromEntity(user: $product->getUpdatedBy()),
+            deletedBy: UserDto::fromEntity(user: $product->getDeletedBy()),
         );
     }
 }

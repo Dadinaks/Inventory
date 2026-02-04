@@ -17,7 +17,7 @@ final class RestoreProduct
 
     public function execute(string $uid, User $updatedBy): OutputDto
     {
-        $product = $this->repository->findByUid($uid);
+        $product = $this->repository->findByUid(uid: $uid);
 
         if (!$this->policy->canRestore($product)) {
             throw new \DomainException(
@@ -25,8 +25,8 @@ final class RestoreProduct
             );
         }
 
-        $product->update(null, false, $updatedBy);
-        $this->repository->save($product);
+        $product->update(threshold: null, isDeleted: false, updatedBy: $updatedBy);
+        $this->repository->save(entity: $product);
 
         return new OutputDto(
             uid: $product->getUid(),
@@ -38,9 +38,9 @@ final class RestoreProduct
             createdAt: $product->getCreatedAt(),
             updatedAt: $product->getUpdatedAt(),
             deletedAt: $product->getDeletedAt(),
-            createdBy: UserDto::fromEntity($product->getCreatedBy()),
-            updatedBy: UserDto::fromEntity($product->getUpdatedBy()),
-            deletedBy: UserDto::fromEntity($product->getDeletedBy()),
+            createdBy: UserDto::fromEntity(user: $product->getCreatedBy()),
+            updatedBy: UserDto::fromEntity(user: $product->getUpdatedBy()),
+            deletedBy: UserDto::fromEntity(user: $product->getDeletedBy()),
         );
     }
 }

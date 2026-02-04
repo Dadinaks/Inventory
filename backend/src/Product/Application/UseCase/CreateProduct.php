@@ -23,8 +23,12 @@ final class CreateProduct
             );
         }
 
-        $product = new Product($this->generateCode(), $name, $createdBy);
-        $this->repository->save($product);
+        $product = new Product(
+            code: $this->generateCode(),
+            name: $name,
+            createdBy: $createdBy
+        );
+        $this->repository->save(entity: $product);
 
         return new OutputDto(
             uid: $product->getUid(),
@@ -36,9 +40,9 @@ final class CreateProduct
             createdAt: $product->getCreatedAt(),
             updatedAt: $product->getUpdatedAt(),
             deletedAt: $product->getDeletedAt(),
-            createdBy: UserDto::fromEntity($product->getCreatedBy()),
-            updatedBy: UserDto::fromEntity($product->getUpdatedBy()),
-            deletedBy: UserDto::fromEntity($product->getDeletedBy()),
+            createdBy: UserDto::fromEntity(user: $product->getCreatedBy()),
+            updatedBy: UserDto::fromEntity(user: $product->getUpdatedBy()),
+            deletedBy: UserDto::fromEntity(user: $product->getDeletedBy()),
         );
     }
 

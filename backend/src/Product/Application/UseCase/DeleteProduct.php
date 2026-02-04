@@ -17,7 +17,7 @@ final class DeleteProduct
 
     public function execute(string $uid, User $deletedBy): OutputDto
     {
-        $product = $this->repository->findByUid($uid);
+        $product = $this->repository->findByUid(uid: $uid);
 
         if (!$product) {
             throw new \DomainException(
@@ -31,8 +31,8 @@ final class DeleteProduct
             );
         }
 
-        $product->markAsDeleted($deletedBy);
-        $this->repository->save($product);
+        $product->markAsDeleted(deletedBy: $deletedBy);
+        $this->repository->save(entity: $product);
 
         return new OutputDto(
             uid: $product->getUid(),
@@ -44,9 +44,9 @@ final class DeleteProduct
             createdAt: $product->getCreatedAt(),
             updatedAt: $product->getUpdatedAt(),
             deletedAt: $product->getDeletedAt(),
-            createdBy: UserDto::fromEntity($product->getCreatedBy()),
-            updatedBy: UserDto::fromEntity($product->getUpdatedBy()),
-            deletedBy: UserDto::fromEntity($product->getDeletedBy()),
+            createdBy: UserDto::fromEntity(user: $product->getCreatedBy()),
+            updatedBy: UserDto::fromEntity(user: $product->getUpdatedBy()),
+            deletedBy: UserDto::fromEntity(user: $product->getDeletedBy()),
         );
     }
 }
