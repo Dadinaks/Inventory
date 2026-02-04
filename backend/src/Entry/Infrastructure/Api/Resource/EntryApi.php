@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use ApiPlatform\OpenApi\Model\Operation;
 use Dadinaks\Entry\Adapter\Dto\InputDto;
 use Dadinaks\Entry\Adapter\Dto\OutputDto;
@@ -77,7 +78,20 @@ use Dadinaks\Entry\Infrastructure\Api\Provider\EntryProvider;
                 summary: 'Delete an entry',
                 description: 'Deletes a specific entry from the system.'
             )
-        )
+        ),
+        new Put(
+            name: 'app_restore_entry',
+            uriTemplate: '/entries/{uid}/restore',
+            input: false,
+            output: OutputDto::class,
+            processor: EntryProcessor::class,
+            provider: EntryProvider::class,
+            security: "is_granted('ROLE_ADMIN')",
+            openapi: new Operation(
+                summary: 'Restore a deleted entry',
+                description: 'Restores a previously deleted entry in the system.'
+            )
+        ),
     ]
 )]
 final class EntryApi {}

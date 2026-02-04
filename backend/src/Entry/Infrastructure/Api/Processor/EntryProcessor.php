@@ -5,10 +5,12 @@ namespace Dadinaks\Entry\Infrastructure\Api\Processor;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Put;
 use ApiPlatform\State\ProcessorInterface;
 use Dadinaks\Entry\Application\UseCase\DeleteEntry;
 use Dadinaks\Entry\Application\UseCase\EditEntry;
 use Dadinaks\Entry\Application\UseCase\NewEntry;
+use Dadinaks\Entry\Application\UseCase\RestoreEntry;
 use Dadinaks\Product\Domain\Repository\ProductRepositoryInterface;
 use Dadinaks\Shared\Adapter\Interface\PresenterInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -20,6 +22,7 @@ final class EntryProcessor implements ProcessorInterface
         private readonly NewEntry $newUseCase,
         private readonly EditEntry $editUseCase,
         private readonly DeleteEntry $deleteUseCase,
+        private readonly RestoreEntry $restoreUseCase,
         private readonly PresenterInterface $presenter,
         private readonly ProductRepositoryInterface $repository,
         private readonly Security $security,
@@ -57,6 +60,19 @@ final class EntryProcessor implements ProcessorInterface
                 return $this->presenter->presentSuccess(
                     code: 201,
                     message: "Entry updated successfully.",
+                    data: $entry
+                );
+            }
+
+            if ($operation instanceof Put) {
+                $entry = $this->restoreUseCase->execute(
+                    uid: $uriVariables['uid'],
+                    updatedBy: $user
+                );
+
+                return $this->presenter->presentSuccess(
+                    code: 201,
+                    message: "Entry restored successfully.",
                     data: $entry
                 );
             }
