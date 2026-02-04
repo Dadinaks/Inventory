@@ -5,6 +5,7 @@ namespace Dadinaks\Entry\Adapter\Dto\Shared;
 use Dadinaks\Entry\Domain\Entity\Entry;
 use Dadinaks\Shared\Adapter\Dto\OutputDtoInterface;
 use Dadinaks\Product\Adapter\Dto\Shared\OutputDto as ProductDto;
+use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserDto;
 
 final class OutputDto implements OutputDtoInterface
 {
@@ -12,7 +13,8 @@ final class OutputDto implements OutputDtoInterface
         public readonly string $uid,
         public readonly int $quantity,
         public readonly ProductDto $product,
-        public readonly \DateTimeImmutable $createdAt
+        public readonly \DateTimeImmutable $createdAt,
+        public readonly UserDto $createdBy
     ) {}
 
     public function toArray(): array
@@ -21,7 +23,8 @@ final class OutputDto implements OutputDtoInterface
             'uid'        => $this->uid,
             'quantity'   => $this->quantity,
             'product'    => $this->product->toArray(),
-            'createdAt'  => $this->createdAt
+            'createdAt'  => $this->createdAt,
+            'createdBy'   => $this->createdBy->toArray(),
         ];
     }
 
@@ -33,7 +36,8 @@ final class OutputDto implements OutputDtoInterface
             uid: $entry->getUid(),
             quantity: $entry->getQuantity(),
             product: ProductDto::fromEntity($entry->getProduct()),
-            createdAt: $entry->getCreatedAt()
+            createdAt: $entry->getCreatedAt(),
+            createdBy: UserDto::fromEntity($entry->getCreatedBy())
         );
     }
 }
