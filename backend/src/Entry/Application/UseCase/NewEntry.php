@@ -19,7 +19,7 @@ final class NewEntry
 
     public function execute(int $quantity, string $productUid, User $createdBy): OutputDto
     {
-        $product = $this->productRepository->findByUid($productUid);
+        $product = $this->productRepository->findByUid(uid: $productUid);
 
         if (!$product) {
             throw new \DomainException(
@@ -37,9 +37,9 @@ final class NewEntry
             createdBy: $createdBy
         );
 
-        $this->repository->save($entry);
-        $product->addQuantity($quantity, $createdBy);
-        $this->productRepository->save($product);
+        $this->repository->save(entity: $entry);
+        $product->addQuantity(quantity: $quantity, updatedBy: $createdBy);
+        $this->productRepository->save(entity: $product);
 
         return new OutputDto(
             uid: $entry->getUid(),
@@ -48,10 +48,10 @@ final class NewEntry
             createdAt: $entry->getCreatedAt(),
             updatedAt: $entry->getUpdatedAt(),
             deletedAt: $entry->getDeletedAt(),
-            product: ProductDto::fromEntity($entry->getProduct()),
-            createdBy: UserDto::fromEntity($entry->getCreatedBy()),
-            updatedBy: $entry->getUpdatedBy() ? UserDto::fromEntity($entry->getUpdatedBy()) : null,
-            deletedBy: $entry->getDeletedBy() ? UserDto::fromEntity($entry->getDeletedBy()) : null,
+            product: ProductDto::fromEntity(product: $entry->getProduct()),
+            createdBy: UserDto::fromEntity(user: $entry->getCreatedBy()),
+            updatedBy: $entry->getUpdatedBy() ? UserDto::fromEntity(user: $entry->getUpdatedBy()) : null,
+            deletedBy: $entry->getDeletedBy() ? UserDto::fromEntity(user: $entry->getDeletedBy()) : null,
         );
     }
 }

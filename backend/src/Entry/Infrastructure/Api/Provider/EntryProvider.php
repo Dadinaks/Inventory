@@ -19,21 +19,21 @@ final class EntryProvider implements ProviderInterface
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         if (isset($uriVariables['uid'])) {
-            $output = $this->useCaseShow->execute($uriVariables['uid']);
+            $output = $this->useCaseShow->execute(uid: $uriVariables['uid']);
 
             return $this->presenter->presentSuccess(
-                200,
-                'Entry retrieved successfully',
-                $output
+                code: 200,
+                message: 'Entry retrieved successfully',
+                data: $output
             );
         }
 
         $output = $this->useCaseList->execute();
 
         return $this->presenter->presentSuccess(
-            200,
-            'Entries retrieved successfully',
-            $output
+            code: 200,
+            message: 'Entries retrieved successfully',
+            data: $output
         );
     }
 }

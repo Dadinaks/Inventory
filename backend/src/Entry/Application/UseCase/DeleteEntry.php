@@ -34,12 +34,12 @@ final class DeleteEntry
             );
         }
 
-        $product = $this->productRepository->findByUid($entry->getProduct()->getUid());
-        $product->decreaseQuantity($entry->getQuantity(), $deletedBy);
-        $this->productRepository->save($product);
+        $product = $this->productRepository->findByUid(uid: $entry->getProduct()->getUid());
+        $product->decreaseQuantity(quantity: $entry->getQuantity(), updatedBy: $deletedBy);
+        $this->productRepository->save(entity: $product);
 
-        $entry->markAsDeleted($deletedBy);
-        $this->repository->save($entry);
+        $entry->markAsDeleted(deletedBy: $deletedBy);
+        $this->repository->save(entity: $entry);
 
 
         return new OutputDto(
@@ -49,10 +49,10 @@ final class DeleteEntry
             createdAt: $entry->getCreatedAt(),
             updatedAt: $entry->getUpdatedAt(),
             deletedAt: $entry->getDeletedAt(),
-            product: ProductDto::fromEntity($entry->getProduct()),
-            createdBy: UserDto::fromEntity($entry->getCreatedBy()),
-            updatedBy: $entry->getUpdatedBy() ? UserDto::fromEntity($entry->getUpdatedBy()) : null,
-            deletedBy: $entry->getDeletedBy() ? UserDto::fromEntity($entry->getDeletedBy()) : null,
+            product: ProductDto::fromEntity(product: $entry->getProduct()),
+            createdBy: UserDto::fromEntity(user: $entry->getCreatedBy()),
+            updatedBy: $entry->getUpdatedBy() ? UserDto::fromEntity(user: $entry->getUpdatedBy()) : null,
+            deletedBy: $entry->getDeletedBy() ? UserDto::fromEntity(user: $entry->getDeletedBy()) : null,
         );
     }
 }

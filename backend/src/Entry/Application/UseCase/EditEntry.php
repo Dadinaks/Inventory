@@ -18,9 +18,9 @@ final class EditEntry
 
     public function execute(string $uid, int $quantity, User $updatedBy): OutputDto
     {
-        $entry = $this->repository->findByUid($uid);
+        $entry = $this->repository->findByUid(uid: $uid);
 
-        $product = $this->productRepository->findByUid($entry->getProduct()->getUid());
+        $product = $this->productRepository->findByUid(uid: $entry->getProduct()->getUid());
 
         if (!$entry) {
             throw new \DomainException(
@@ -32,8 +32,8 @@ final class EditEntry
             throw new \DomainException('Quantity must be greater than zero.');
         }
 
-        $product->decreaseQuantity($entry->getQuantity(), $updatedBy);
-        $this->productRepository->save($product);
+        $product->decreaseQuantity(quantity: $entry->getQuantity(), updatedBy: $updatedBy);
+        $this->productRepository->save(entity: $product);
 
         $entry->update(
             quantity: $quantity,
@@ -41,9 +41,9 @@ final class EditEntry
             updatedBy: $updatedBy,
         );
 
-        $product->addQuantity($quantity, $updatedBy);
-        $this->productRepository->save($product);
-        $this->repository->save($entry);
+        $product->addQuantity(quantity: $quantity, updatedBy: $updatedBy);
+        $this->productRepository->save(entity: $product);
+        $this->repository->save(entity: $entry);
 
         return new OutputDto(
             uid: $entry->getUid(),
@@ -52,10 +52,10 @@ final class EditEntry
             createdAt: $entry->getCreatedAt(),
             updatedAt: $entry->getUpdatedAt(),
             deletedAt: $entry->getDeletedAt(),
-            product: ProductDto::fromEntity($entry->getProduct()),
-            createdBy: UserDto::fromEntity($entry->getCreatedBy()),
-            updatedBy: $entry->getUpdatedBy() ? UserDto::fromEntity($entry->getUpdatedBy()) : null,
-            deletedBy: $entry->getDeletedBy() ? UserDto::fromEntity($entry->getDeletedBy()) : null,
+            product: ProductDto::fromEntity(product: $entry->getProduct()),
+            createdBy: UserDto::fromEntity(user: $entry->getCreatedBy()),
+            updatedBy: $entry->getUpdatedBy() ? UserDto::fromEntity(user: $entry->getUpdatedBy()) : null,
+            deletedBy: $entry->getDeletedBy() ? UserDto::fromEntity(user: $entry->getDeletedBy()) : null,
         );
     }
 }

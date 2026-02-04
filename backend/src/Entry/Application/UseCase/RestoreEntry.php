@@ -49,10 +49,10 @@ final class RestoreEntry
             createdAt: $entry->getCreatedAt(),
             updatedAt: $entry->getUpdatedAt(),
             deletedAt: $entry->getDeletedAt(),
-            product: ProductDto::fromEntity($entry->getProduct()),
-            createdBy: UserDto::fromEntity($entry->getCreatedBy()),
-            updatedBy: $entry->getUpdatedBy() ? UserDto::fromEntity($entry->getUpdatedBy()) : null,
-            deletedBy: $entry->getDeletedBy() ? UserDto::fromEntity($entry->getDeletedBy()) : null,
+            product: ProductDto::fromEntity(product: $entry->getProduct()),
+            createdBy: UserDto::fromEntity(user: $entry->getCreatedBy()),
+            updatedBy: $entry->getUpdatedBy() ? UserDto::fromEntity(user: $entry->getUpdatedBy()) : null,
+            deletedBy: $entry->getDeletedBy() ? UserDto::fromEntity(user: $entry->getDeletedBy()) : null,
         );
     }
 }

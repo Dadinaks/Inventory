@@ -71,7 +71,7 @@ final class EntryOrm
 
     public function toDomain(): Entry
     {
-        return Entry::fromState([
+        return Entry::fromState(state: [
             'uid'           => $this->uid,
             'quantity'      => $this->quantity,
             'isDeleted'     => $this->isDeleted,

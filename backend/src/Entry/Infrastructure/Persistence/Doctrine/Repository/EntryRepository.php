@@ -24,10 +24,10 @@ final class EntryRepository implements RepositoryInterface
         $orm = $this->entityManager->getRepository(EntryOrm::class)->findOneBy(['uid' => $entity->getUid()]);
 
         if ($orm) {
-            $orm->setQuantity($entity->getQuantity());
-            $orm->setUpdatedAt($entity->getUpdatedAt());
-            $orm->setDeletedAt($entity->getDeletedAt());
-            $orm->setIsDeleted($entity->isDeleted());
+            $orm->setQuantity(quantity: $entity->getQuantity());
+            $orm->setUpdatedAt(updatedAt: $entity->getUpdatedAt());
+            $orm->setDeletedAt(deletedAt: $entity->getDeletedAt());
+            $orm->setIsDeleted(isDeleted: $entity->isDeleted());
 
             if ($entity->getUpdatedBy()) {
                 $updatedBy = $this->entityManager
@@ -40,7 +40,7 @@ final class EntryRepository implements RepositoryInterface
                     );
                 }
 
-                $orm->setUpdatedBy($updatedBy);
+                $orm->setUpdatedBy(updatedBy: $updatedBy);
             }
 
             if ($entity->getDeletedBy()) {
@@ -54,7 +54,7 @@ final class EntryRepository implements RepositoryInterface
                     );
                 }
 
-                $orm->setDeletedBy($deletedBy);
+                $orm->setDeletedBy(deletedBy:$deletedBy);
             }
         } else {
             $product = $this->entityManager
@@ -75,8 +75,8 @@ final class EntryRepository implements RepositoryInterface
                 );
             }
 
-            $orm = EntryOrm::fromDomain($entity, $product, $createdBy);
-            $this->entityManager->persist($orm);
+            $orm = EntryOrm::fromDomain(entry: $entity, product: $product, createdBy: $createdBy);
+            $this->entityManager->persist(object: $orm);
         }
 
         $this->entityManager->flush();

@@ -79,19 +79,19 @@ final class EntryProcessor implements ProcessorInterface
         }
 
         $output = $this->newUseCase->execute(
-            $data->quantity,
-            $data->productUid,
-            $user
+            quantity: $data->quantity,
+            productUid: $data->productUid,
+            createdBy: $user
         );
 
-        $product = $this->repository->findByUid($data->productUid);
+        $product = $this->repository->findByUid(uid: $data->productUid);
         $name = $product ? $product->getName() : 'unknown';
         $code = $product ? $product->getCode() : 'unknown';
 
         return $this->presenter->presentSuccess(
-            201,
-            "New entry for product $code - $name created successfully",
-            $output
+            code: 201,
+            message: "New entry for product $code - $name created successfully",
+            data: $output
         );
     }
 }

@@ -15,7 +15,7 @@ final class ShowEntry
 
     public function execute(string $uid): OutputDto
     {
-        $entry = $this->repository->findByUid($uid);
+        $entry = $this->repository->findByUid(uid: $uid);
 
         if (!$entry) {
             throw new \DomainException(sprintf('Entry with %s uid not found.', $uid));
@@ -28,10 +28,10 @@ final class ShowEntry
             createdAt: $entry->getCreatedAt(),
             updatedAt: $entry->getUpdatedAt(),
             deletedAt: $entry->getDeletedAt(),
-            product: ProductDto::fromEntity($entry->getProduct()),
-            createdBy: UserDto::fromEntity($entry->getCreatedBy()),
-            updatedBy: $entry->getUpdatedBy() ? UserDto::fromEntity($entry->getUpdatedBy()) : null,
-            deletedBy: $entry->getDeletedBy() ? UserDto::fromEntity($entry->getDeletedBy()) : null,
+            product: ProductDto::fromEntity(product: $entry->getProduct()),
+            createdBy: UserDto::fromEntity(user: $entry->getCreatedBy()),
+            updatedBy: $entry->getUpdatedBy() ? UserDto::fromEntity(user: $entry->getUpdatedBy()) : null,
+            deletedBy: $entry->getDeletedBy() ? UserDto::fromEntity(user: $entry->getDeletedBy()) : null,
         );
     }
 }
