@@ -5,7 +5,6 @@ namespace Dadinaks\Entry\Infrastructure\Persistence\Doctrine\Entity;
 use Dadinaks\Entry\Domain\Entity\Entry;
 use Dadinaks\Product\Infrastructure\Persistence\Doctrine\Entity\ProductOrm as Product;
 use Dadinaks\User\Infrastructure\Persistence\Doctrine\Entity\UserOrm as User;
-use Dadinaks\Role\Infrastructure\Persistence\Doctrine\Entity\RoleOrm as Role;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
