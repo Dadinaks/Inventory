@@ -13,7 +13,7 @@ final class GetOneRole
 
     public function execute(string $uid): OutputDto
     {
-        $role = $this->repository->findByUid($uid);
+        $role = $this->repository->findByUid(uid: $uid);
 
         if (!$role) {
             throw new \DomainException(sprintf('Role with %s uid not found.', $uid));

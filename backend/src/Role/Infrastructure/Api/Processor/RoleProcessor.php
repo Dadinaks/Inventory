@@ -17,15 +17,15 @@ final class RoleProcessor implements ProcessorInterface
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         $output = $this->useCaseCreate->execute(
-            $data->role,
-            $data->label,
-            $data->description
+            role: $data->role,
+            label: $data->label,
+            description: $data->description
         );
 
         return $this->presenter->presentSuccess(
-            201,
-            'Role created successfully',
-            $output
+            code: 201,
+            message: 'Role created successfully',
+            data: $output
         );
     }
 }

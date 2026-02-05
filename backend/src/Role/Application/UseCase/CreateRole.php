@@ -15,7 +15,7 @@ final class CreateRole
 
     public function execute(string $role, string $label, ?string $description): OutputDto
     {
-        if ($this->repository->findOneBy(['role' => $role])) {
+        if ($this->repository->findOneBy(criteria: ['role' => $role])) {
             throw new \DomainException(
                 sprintf('Role : "%s" already exists.', $role)
             );
@@ -33,7 +33,7 @@ final class CreateRole
             description: $description,
         );
 
-        $this->repository->save($roleEntity);
+        $this->repository->save(entity: $roleEntity);
 
         return new OutputDto(
             uid: $roleEntity->getUid(),

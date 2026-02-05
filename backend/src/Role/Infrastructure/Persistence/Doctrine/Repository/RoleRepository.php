@@ -20,8 +20,8 @@ final class RoleRepository implements RepositoryInterface, RoleRepositoryInterfa
             throw new \InvalidArgumentException('Expected ' . RoleOrm::class);
         }
 
-        $orm = RoleOrm::fromDomain($entity);
-        $this->entityManager->persist($orm);
+        $orm = RoleOrm::fromDomain(role: $entity);
+        $this->entityManager->persist(object: $orm);
 
         $this->entityManager->flush();
     }
