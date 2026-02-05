@@ -9,4 +9,6 @@ interface ProductRepositoryInterface
     public function count(array $criteria = []): ?int;
 
     public function save(object $entity): void;
+
+    public function findHistory(string $uid): array;
 }

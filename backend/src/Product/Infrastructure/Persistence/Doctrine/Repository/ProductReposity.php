@@ -5,6 +5,7 @@ namespace Dadinaks\Product\Infrastructure\Persistence\Doctrine\Repository;
 use Dadinaks\Product\Domain\Entity\Product;
 use Dadinaks\Product\Domain\Repository\ProductRepositoryInterface;
 use Dadinaks\Product\Infrastructure\Persistence\Doctrine\Entity\ProductOrm;
+use Dadinaks\Product\Infrastructure\Persistence\Doctrine\Service\ProductQuery;
 use Dadinaks\Shared\Domain\Repository\RepositoryInterface;
 use Dadinaks\User\Infrastructure\Persistence\Doctrine\Entity\UserOrm;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,7 +13,8 @@ use Doctrine\ORM\EntityManagerInterface;
 final class ProductReposity implements RepositoryInterface, ProductRepositoryInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private ProductQuery $productQuery,
     ) {}
 
     public function save(object $entity): void
@@ -108,5 +110,11 @@ final class ProductReposity implements RepositoryInterface, ProductRepositoryInt
         return $this->entityManager
             ->getRepository(ProductOrm::class)
             ->count($criteria);
+    }
+
+    public function findHistory(string $uid): array
+    {
+        return $this->productQuery
+            ->HistoryProduct(uid: $uid);
     }
 }

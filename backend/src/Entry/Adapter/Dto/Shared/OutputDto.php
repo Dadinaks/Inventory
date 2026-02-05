@@ -35,9 +35,9 @@ final class OutputDto implements OutputDtoInterface
         return new self(
             uid: $entry->getUid(),
             quantity: $entry->getQuantity(),
-            product: ProductDto::fromEntity($entry->getProduct()),
+            product: ProductDto::fromEntity(product: $entry->getProduct()),
             createdAt: $entry->getCreatedAt(),
-            createdBy: UserDto::fromEntity($entry->getCreatedBy())
+            createdBy: UserDto::fromEntity(user: $entry->getCreatedBy())
         );
     }
 }
