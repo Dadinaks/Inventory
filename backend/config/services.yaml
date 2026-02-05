@@ -49,12 +49,19 @@ services:
         bind:
             Dadinaks\Shared\Domain\Repository\RepositoryInterface: '@Dadinaks\User\Infrastructure\Persistence\Doctrine\Repository\UserRepository'
 
-    # Tous les services sous Dadinaks\User\
+    # Tous les services sous Dadinaks\Entry\
     Dadinaks\Entry\:
         resource: "../src/Entry/*"
         exclude: "../src/Entry/{Domain,Tests}"
         bind:
             Dadinaks\Shared\Domain\Repository\RepositoryInterface: '@Dadinaks\Entry\Infrastructure\Persistence\Doctrine\Repository\EntryRepository'
+
+    # Tous les services sous Dadinaks\Exits\
+    Dadinaks\Exits\:
+        resource: "../src/Exits/*"
+        exclude: "../src/Exits/{Domain,Tests}"
+        bind:
+            Dadinaks\Shared\Domain\Repository\RepositoryInterface: '@Dadinaks\Exits\Infrastructure\Persistence\Doctrine\Repository\ExitsRepository'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -65,7 +72,7 @@ services:
                   event: "lexik_jwt_authentication.on_jwt_decoded",
                   method: "onJWTDecoded",
               }
-              
+
     Dadinaks\User\Infrastructure\Security\EventListener\JWTResponseListener:
         tags:
             - {
