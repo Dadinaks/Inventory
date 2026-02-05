@@ -52,7 +52,7 @@ final class EditEntry
             createdAt: $entry->getCreatedAt(),
             updatedAt: $entry->getUpdatedAt(),
             deletedAt: $entry->getDeletedAt(),
-            product: ProductDto::fromEntity(product: $entry->getProduct()),
+            product: ProductDto::fromEntity(product: $product),
             createdBy: UserDto::fromEntity(user: $entry->getCreatedBy()),
             updatedBy: $entry->getUpdatedBy() ? UserDto::fromEntity(user: $entry->getUpdatedBy()) : null,
             deletedBy: $entry->getDeletedBy() ? UserDto::fromEntity(user: $entry->getDeletedBy()) : null,
