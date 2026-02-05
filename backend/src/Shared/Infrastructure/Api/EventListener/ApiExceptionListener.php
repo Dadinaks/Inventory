@@ -27,20 +27,20 @@ final class ApiExceptionListener
                 ? $violations[0]->getMessage()
                 : 'Validation error.';
 
-            $this->respond($event, 422, $message);
+            $this->respond(event: $event, statusCode: 422, message: $message);
             return;
         }
 
         if ($exception instanceof \DomainException) {
-            $this->respond($event, 409, $exception->getMessage());
+            $this->respond(event: $event, statusCode: 409, message: $exception->getMessage());
             return;
         }
 
         if ($exception instanceof HttpExceptionInterface) {
             $this->respond(
-                $event,
-                $exception->getStatusCode(),
-                $exception->getMessage()
+                event: $event,
+                statusCode: $exception->getStatusCode(),
+                message: $exception->getMessage()
             );
             return;
         }
@@ -53,7 +53,7 @@ final class ApiExceptionListener
             )
             : 'Internal server error.';
 
-        $this->respond($event, 500, $message);
+        $this->respond(event: $event, statusCode: 500, message: $message);
     }
 
     private function respond(ExceptionEvent $event, int $statusCode, string $message): void
