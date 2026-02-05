@@ -35,46 +35,46 @@ final class ProductProcessor implements ProcessorInterface
 
         if (isset($uriVariables['uid'])) {
             if ($operation instanceof Delete) {
-                $product = $this->useCaseDelete->execute($uriVariables['uid'], $user);
+                $product = $this->useCaseDelete->execute(uid: $uriVariables['uid'], deletedBy: $user);
                 return $this->presenter->presentSuccess(
-                    200,
-                    'Product deleted successfully.',
-                    $product
+                    code: 200,
+                    message: 'Product deleted successfully.',
+                    data: $product
                 );
             }
 
             if ($operation instanceof Put) {
-                $product = $this->useCaseRestore->execute($uriVariables['uid'], $user);
+                $product = $this->useCaseRestore->execute(uid: $uriVariables['uid'], updatedBy: $user);
 
                 return $this->presenter->presentSuccess(
-                    201,
-                    'Product restored successfully.',
-                    $product
+                    code: 201,
+                    message: 'Product restored successfully.',
+                    data: $product
                 );
             }
 
             $product = $this->useCaseThereshold->execute(
-                $uriVariables['uid'],
-                $data->threshold,
-                $user
+                uid: $uriVariables['uid'],
+                threshold: $data->threshold,
+                updatedBy: $user
             );
 
             return $this->presenter->presentSuccess(
-                201,
-                'Threshold updated successfully.',
-                $product
+                code: 201,
+                message: 'Threshold updated successfully.',
+                data: $product
             );
         }
 
         $output = $this->useCaseCreate->execute(
-            $data->name,
-            $user
+            name: $data->name,
+            createdBy: $user
         );
 
         return $this->presenter->presentSuccess(
-            201,
-            'Product created successfully',
-            $output
+            code: 201,
+            message: 'Product created successfully',
+            data: $output
         );
     }
 }

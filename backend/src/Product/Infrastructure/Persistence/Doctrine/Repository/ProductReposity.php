@@ -24,11 +24,11 @@ final class ProductReposity implements RepositoryInterface, ProductRepositoryInt
         $orm = $this->entityManager->getRepository(ProductOrm::class)->findOneBy(['uid' => $entity->getUid()]);
 
         if ($orm) {
-            $orm->setThreshold($entity->getThreshold());
-            $orm->setDeleted($entity->isDeleted());
-            $orm->setDeletedAt($entity->getDeletedAt());
-            $orm->setUpdatedAt($entity->getUpdatedAt());
-            $orm->setQuantity($entity->getQuantity());
+            $orm->setThreshold(threshold: $entity->getThreshold());
+            $orm->setDeleted(isDeleted: $entity->isDeleted());
+            $orm->setDeletedAt(deletedAt: $entity->getDeletedAt());
+            $orm->setUpdatedAt(updatedAt: $entity->getUpdatedAt());
+            $orm->setQuantity(quantity: $entity->getQuantity());
 
             if ($entity->getUpdatedBy()) {
                 $updatedBy = $this->entityManager
@@ -41,7 +41,7 @@ final class ProductReposity implements RepositoryInterface, ProductRepositoryInt
                     );
                 }
 
-                $orm->setUpdatedBy($updatedBy);
+                $orm->setUpdatedBy(updatedBy: $updatedBy);
             }
 
             if ($entity->getDeletedBy()) {
@@ -55,9 +55,9 @@ final class ProductReposity implements RepositoryInterface, ProductRepositoryInt
                     );
                 }
 
-                $orm->setDeletedBy($deletedBy);
+                $orm->setDeletedBy(deletedBy: $deletedBy);
             } else {
-                $orm->setDeletedBy(null);
+                $orm->setDeletedBy(deletedBy: null);
             }
         } else {
             $createdBy = $this->entityManager
@@ -70,8 +70,8 @@ final class ProductReposity implements RepositoryInterface, ProductRepositoryInt
                 );
             }
 
-            $orm = ProductOrm::fromDomain($entity, $createdBy);
-            $this->entityManager->persist($orm);
+            $orm = ProductOrm::fromDomain(product: $entity, createdBy: $createdBy);
+            $this->entityManager->persist(object: $orm);
         }
 
         $this->entityManager->flush();

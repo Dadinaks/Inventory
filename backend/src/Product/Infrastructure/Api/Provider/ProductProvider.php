@@ -19,9 +19,9 @@ final class ProductProvider implements ProviderInterface
         $output = $this->useCaseList->execute();
 
         return $this->presenter->presentSuccess(
-            200,
-            'Products retrieved successfully',
-            $output
+            code: 200,
+            message: 'Products retrieved successfully',
+            data: $output
         );
     }
 }
