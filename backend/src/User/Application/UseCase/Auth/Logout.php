@@ -18,23 +18,23 @@ final class Logout
 
     public function execute(string $username, string $token): OutputLogoutDto
     {
-        $user = $this->repository->findOneBy(['username' => $username]);
+        $user = $this->repository->findOneBy(criteria: ['username' => $username]);
 
         if (!$user) {
             throw new \DomainException('User not found.');
         }
 
         try {
-            $tokenData = $this->tokenManager->decode($token);
+            $tokenData = $this->tokenManager->decode(token: $token);
 
             if (isset($tokenData['jti'])) {
-                $cacheItem = $this->cache->getItem('jwt_blocklist_' . $tokenData['jti']);
+                $cacheItem = $this->cache->getItem(key: 'jwt_blocklist_' . $tokenData['jti']);
                 $ttl = $tokenData['exp'] - time();
 
                 if ($ttl > 0) {
-                    $cacheItem->set(true);
-                    $cacheItem->expiresAfter($ttl);
-                    $this->cache->save($cacheItem);
+                    $cacheItem->set(value: true);
+                    $cacheItem->expiresAfter(time: $ttl);
+                    $this->cache->save(item: $cacheItem);
                 }
             }
         } catch (\Exception $e) {
@@ -42,7 +42,7 @@ final class Logout
         }
 
         $user->markAsDisconnected();
-        $this->repository->save($user);
+        $this->repository->save(entity: $user);
 
         return new OutputLogoutDto(
             uid: $user->getUid(),

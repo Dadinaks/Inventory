@@ -16,7 +16,7 @@ final class DisabledUser
 
     public function execute(string $uid): OutputDto
     {
-        $user = $this->repository->findByUid($uid);
+        $user = $this->repository->findByUid(uid: $uid);
 
         if (!$user) {
             throw new \DomainException(
@@ -24,13 +24,13 @@ final class DisabledUser
             );
         }
 
-        if ($this->activePolicy->canDisable($user)) {
+        if ($this->activePolicy->canDisable(user: $user)) {
             throw new \DomainException('User is already disabled.');
         }
 
         $user->disable();
 
-        $this->repository->save($user);
+        $this->repository->save(entity: $user);
 
         return new OutputDto(
             uid: $user->getUid(),

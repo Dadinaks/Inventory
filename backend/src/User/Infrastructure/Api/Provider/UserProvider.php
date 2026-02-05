@@ -19,9 +19,9 @@ final class UserProvider implements ProviderInterface
         $output = $this->useCaseList->execute();
 
         return $this->presenter->presentSuccess(
-            200,
-            'Users retrieved successfully',
-            $output
+            code: 200,
+            message: 'Users retrieved successfully',
+            data: $output
         );
     }
 }

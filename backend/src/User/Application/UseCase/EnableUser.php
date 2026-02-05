@@ -16,7 +16,7 @@ final class EnableUser
 
     public function execute(string $uid): OutputDto
     {
-        $user = $this->repository->findByUid($uid);
+        $user = $this->repository->findByUid(uid: $uid);
 
         if (!$user) {
             throw new \DomainException(
@@ -24,13 +24,13 @@ final class EnableUser
             );
         }
 
-        if ($this->activePolicy->canEnable($user)) {
+        if ($this->activePolicy->canEnable(user: $user)) {
             throw new \DomainException('User is already enabled.');
         }
 
         $user->enable();
 
-        $this->repository->save($user);
+        $this->repository->save(entity: $user);
 
         return new OutputDto(
             uid: $user->getUid(),

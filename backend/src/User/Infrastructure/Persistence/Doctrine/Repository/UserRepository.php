@@ -24,11 +24,11 @@ final class UserRepository implements RepositoryInterface, UserRepositoryInterfa
         $orm = $this->entityManager->getRepository(UserOrm::class)->findOneBy(['uid' => $entity->getUid()]);
 
         if ($orm) {
-            $orm->setIsActive($entity->getIsActive());
-            $orm->setIsConnected($entity->getIsConnected());
-            $orm->setIsDeleted($entity->getIsDeleted());
-            $orm->setUpdatedAt($entity->getUpdatedAt());
-            $orm->setDeletedAt($entity->getDeletedAt());
+            $orm->setIsActive(isActive: $entity->getIsActive());
+            $orm->setIsConnected(isConnected: $entity->getIsConnected());
+            $orm->setIsDeleted(isDeleted: $entity->getIsDeleted());
+            $orm->setUpdatedAt(updatedAt: $entity->getUpdatedAt());
+            $orm->setDeletedAt(deletedAt: $entity->getDeletedAt());
         } else {
             $role = $this->entityManager
                 ->getRepository(RoleOrm::class)
@@ -40,8 +40,8 @@ final class UserRepository implements RepositoryInterface, UserRepositoryInterfa
                 );
             }
 
-            $orm = UserOrm::fromDomain($entity, $role);
-            $this->entityManager->persist($orm);
+            $orm = UserOrm::fromDomain(user: $entity, roleOrm: $role);
+            $this->entityManager->persist(object: $orm);
         }
 
         $this->entityManager->flush();

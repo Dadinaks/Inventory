@@ -4,7 +4,7 @@ namespace Dadinaks\User\Application\UseCase;
 
 use Dadinaks\Shared\Domain\Repository\RepositoryInterface;
 use Dadinaks\User\Adapter\Dto\OutputDto;
-use Dadinaks\Role\Adapter\Dto\OutputDto As RoleOutputDto;
+use Dadinaks\Role\Adapter\Dto\OutputDto as RoleOutputDto;
 use Dadinaks\User\Application\Policy\DeletePolicy;
 
 final class DeleteUser
@@ -16,7 +16,7 @@ final class DeleteUser
 
     public function execute(string $uid)
     {
-        $user = $this->repository->findByUid($uid);
+        $user = $this->repository->findByUid(uid: $uid);
 
         if (!$user) {
             throw new \DomainException(
@@ -24,14 +24,14 @@ final class DeleteUser
             );
         }
 
-        if (!$this->policy->canDelete($user)) {
+        if (!$this->policy->canDelete(user: $user)) {
             throw new \DomainException(
                 sprintf('User "%s" is already deleted.', $user->getFirstname() . ' ' . $user->getLastname())
             );
         }
 
         $user->markAsDeleted();
-        $this->repository->save($user);
+        $this->repository->save(entity: $user);
 
         return new OutputDto(
             uid: $user->getUid(),

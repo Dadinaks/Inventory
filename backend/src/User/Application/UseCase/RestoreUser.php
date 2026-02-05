@@ -4,7 +4,7 @@ namespace Dadinaks\User\Application\UseCase;
 
 use Dadinaks\Shared\Domain\Repository\RepositoryInterface;
 use Dadinaks\User\Adapter\Dto\OutputDto;
-use Dadinaks\Role\Adapter\Dto\OutputDto As RoleOutputDto;
+use Dadinaks\Role\Adapter\Dto\OutputDto as RoleOutputDto;
 use Dadinaks\User\Application\Policy\DeletePolicy;
 
 final class RestoreUser
@@ -16,16 +16,16 @@ final class RestoreUser
 
     public function execute(string $uid)
     {
-        $user = $this->repository->findByUid($uid);
+        $user = $this->repository->findByUid(uid: $uid);
 
-        if (!$this->policy->canRestore($user)) {
+        if (!$this->policy->canRestore(user: $user)) {
             throw new \DomainException(
                 sprintf('User "%s" is not deleted.', $user->getFirstname() . ' ' . $user->getLastname())
             );
         }
-        
+
         $user->restore();
-        $this->repository->save($user);
+        $this->repository->save(entity: $user);
 
         return new OutputDto(
             uid: $user->getUid(),

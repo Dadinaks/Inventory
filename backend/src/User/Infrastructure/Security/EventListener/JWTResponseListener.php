@@ -15,17 +15,17 @@ final class JWTResponseListener
 
     public function formatInvalidTokenResponse(JWTInvalidEvent $event): void
     {
-        $this->sendUniformResponse($event, 401, 'Invalid or expired JWT Token');
+        $this->sendUniformResponse(event: $event, code: 401, message: 'Invalid or expired JWT Token');
     }
 
     public function formatFailureResponse(AuthenticationFailureEvent $event): void
     {
-        $this->sendUniformResponse($event, 401, 'Invalid credentials');
+        $this->sendUniformResponse(event: $event, code: 401, message: 'Invalid credentials');
     }
 
     private function sendUniformResponse($event, int $code, string $message): void
     {
-        $data = $this->presenter->presentError($code, $message, []);
+        $data = $this->presenter->presentError(code: $code, message: $message, data: []);
         $event->setResponse(new JsonResponse($data, $code));
     }
 }

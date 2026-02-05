@@ -19,7 +19,7 @@ final class JWTInvalidationListener
             return;
         }
 
-        $cacheItem = $this->cache->getItem('jwt_blocklist_' . $payload['jti']);
+        $cacheItem = $this->cache->getItem(key: 'jwt_blocklist_' . $payload['jti']);
 
         if ($cacheItem->isHit()) {
             $event->markAsInvalid();

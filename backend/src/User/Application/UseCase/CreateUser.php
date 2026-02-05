@@ -31,7 +31,7 @@ final class CreateUser
             throw new \DomainException('Lastname cannot be empty.');
         }
 
-        if ($this->usernamePolicy->isAlreadyUsed($username)) {
+        if ($this->usernamePolicy->isAlreadyUsed(username: $username)) {
             throw new \DomainException(
                 sprintf('User with username: "%s" already exists.', $username)
             );
@@ -39,7 +39,7 @@ final class CreateUser
 
         if (empty($password)) {
             throw new \DomainException('Password cannot be empty.');
-        } elseif (!$this->passwordPolicy->isValid($password)) {
+        } elseif (!$this->passwordPolicy->isValid(password: $password)) {
             throw new \DomainException(
                 'The password must contain at least one lowercase letter, one uppercase letter, one number and one special character.'
             );
@@ -49,7 +49,7 @@ final class CreateUser
             throw new \DomainException('Role UID cannot be empty.');
         }
 
-        $role = $this->roleRepository->findByUid($roleUid);
+        $role = $this->roleRepository->findByUid(uid: $roleUid);
 
         if (!$role) {
             throw new \DomainException(
@@ -68,7 +68,7 @@ final class CreateUser
             role: $role,
         );
 
-        $this->repository->save($user);
+        $this->repository->save(entity: $user);
 
         return new OutputDto(
             uid: $user->getUid(),

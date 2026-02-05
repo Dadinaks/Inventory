@@ -30,58 +30,58 @@ final class UserProcessor implements ProcessorInterface
     {
         if (isset($uriVariables['uid'])) {
             if ($operation instanceof Put) {
-                $output = $this->useCaseDisable->execute($uriVariables['uid']);
+                $output = $this->useCaseDisable->execute(uid: $uriVariables['uid']);
 
                 return $this->presenter->presentSuccess(
-                    201,
-                    'User disabled successfully',
-                    $output
+                    code: 201,
+                    message: 'User disabled successfully',
+                    data: $output
                 );
             }
 
             if ($operation instanceof Post) {
-                $output = $this->useCaseEnable->execute($uriVariables['uid']);
+                $output = $this->useCaseEnable->execute(uid: $uriVariables['uid']);
 
                 return $this->presenter->presentSuccess(
-                    201,
-                    'Enable user successfully',
-                    $output
+                    code: 201,
+                    message: 'User enabled successfully',
+                    data: $output
                 );
             }
 
             if ($operation instanceof Delete) {
-                $output = $this->useCaseDelete->execute($uriVariables['uid']);
+                $output = $this->useCaseDelete->execute(uid: $uriVariables['uid']);
 
                 return $this->presenter->presentSuccess(
-                    200,
-                    'User deleted successfully',
-                    $output
+                    code: 200,
+                    message: 'User deleted successfully',
+                    data: $output
                 );
             }
 
             if ($operation instanceof Patch) {
-                $output = $this->useCaseRestore->execute($uriVariables['uid']);
+                $output = $this->useCaseRestore->execute(uid: $uriVariables['uid']);
 
                 return $this->presenter->presentSuccess(
-                    201,
-                    'User restored successfully',
-                    $output
+                    code: 201,
+                    message: 'User restored successfully',
+                    data: $output
                 );
             }
         }
 
         $output = $this->useCaseCreate->execute(
-            $data->firstname,
-            $data->lastname,
-            $data->username,
-            $data->password,
-            $data->role
+            firstname: $data->firstname,
+            lastname: $data->lastname,
+            username: $data->username,
+            password: $data->password,
+            roleUid: $data->role
         );
 
         return $this->presenter->presentSuccess(
-            201,
-            'User created successfully',
-            $output
+            code: 201,
+            message: 'User created successfully',
+            data: $output
         );
     }
 }

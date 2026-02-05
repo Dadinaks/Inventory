@@ -48,7 +48,7 @@ final class UserProvider implements UserProviderInterface, PasswordUpgraderInter
             throw new UnsupportedUserException(sprintf('Invalid user class "%s".', $user::class));
         }
 
-        return $this->loadUserByIdentifier($user->getUserIdentifier());
+        return $this->loadUserByIdentifier(identifier: $user->getUserIdentifier());
     }
 
     /**
@@ -56,7 +56,7 @@ final class UserProvider implements UserProviderInterface, PasswordUpgraderInter
      */
     public function supportsClass(string $class): bool
     {
-        return User::class === $class || is_subclass_of($class, User::class);
+        return User::class === $class || is_subclass_of(object_or_class: $class, class: User::class);
     }
 
     /**

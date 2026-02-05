@@ -17,14 +17,14 @@ final class LogoutProcessor implements ProcessorInterface
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         $output = $this->useCaseLogout->execute(
-            $data->username,
-            $data->token
+            username: $data->username,
+            token: $data->token
         );
 
         return $this->presenter->presentSuccess(
-            200,
-            'User disconnected successfully',
-            $output
+            code: 200,
+            message: 'User disconnected successfully',
+            data: $output
         );
     }
 }

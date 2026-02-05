@@ -27,15 +27,15 @@ final class Login
 
     public function execute(string $username, string $password): OutputLoginDto
     {
-        $user = $this->repository->findOneBy(['username' => $username]);
+        $user = $this->repository->findOneBy(criteria: ['username' => $username]);
 
-        if (!$user || !password_verify($password, $user->getPassword())) {
+        if (!$user || !password_verify(password: $password, hash: $user->getPassword())) {
             throw new \DomainException('Invalid credentials.');
         }
 
-        $token = $this->tokenManager->createFromPayload($user, $this->payload($user));
+        $token = $this->tokenManager->createFromPayload(user: $user, payload: $this->payload(user: $user));
         $user->markAsConnected();
-        $this->repository->save($user);
+        $this->repository->save(entity: $user);
 
         return new OutputLoginDto(
             uid: $user->getUid(),
