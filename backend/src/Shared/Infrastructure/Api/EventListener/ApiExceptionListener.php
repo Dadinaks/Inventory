@@ -61,9 +61,9 @@ final class ApiExceptionListener
         $event->setResponse(
             new JsonResponse(
                 $this->presenter->presentError(
-                    $statusCode,
-                    $message,
-                    []
+                    code: $statusCode,
+                    message: $message,
+                    data: []
                 ),
                 $statusCode
             )
