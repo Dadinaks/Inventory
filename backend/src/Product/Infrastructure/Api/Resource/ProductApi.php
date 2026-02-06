@@ -4,6 +4,7 @@ namespace Dadinaks\Product\Infrastructure\Api\Resource;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
@@ -11,6 +12,7 @@ use ApiPlatform\Metadata\Put;
 use ApiPlatform\OpenApi\Model\Operation;
 use Dadinaks\Product\Adapter\Dto\InputDto;
 use Dadinaks\Product\Adapter\Dto\OutputDto;
+use Dadinaks\Product\Adapter\Dto\ProductHistoryDto;
 use Dadinaks\Product\Adapter\Dto\ThresholdDto;
 use Dadinaks\Product\Infrastructure\Api\Processor\ProductProcessor;
 use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
@@ -80,6 +82,17 @@ use Dadinaks\Product\Infrastructure\Api\Provider\ProductProvider;
                 description: 'Restores a specific product identified by its UID.'
             )
         ),
+        new Get(
+            name: 'app_product_movement_history',
+            uriTemplate: '/product/{uid}/history',
+            output: ProductHistoryDto::class,
+            provider: ProductProvider::class,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            openapi: new Operation(
+                summary: 'Get product movement history',
+                description: 'Retrieves the movement history for a specific product identified by its UID.'
+            )
+        )
     ]
 )]
 final class ProductApi {}

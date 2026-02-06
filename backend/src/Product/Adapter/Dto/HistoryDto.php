@@ -10,7 +10,7 @@ final class HistoryDto implements OutputDtoInterface
     public function __construct(
         public readonly string $uid,
         public readonly int $quantity,
-        public readonly string $date,
+        public readonly \DateTimeImmutable $date,
         public readonly string $type,
         public readonly UserDto $user
     ) {}

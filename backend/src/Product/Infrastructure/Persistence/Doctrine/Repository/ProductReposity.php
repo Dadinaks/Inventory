@@ -68,7 +68,7 @@ final class ProductReposity implements RepositoryInterface, ProductRepositoryInt
 
             if (!$createdBy) {
                 throw new \RuntimeException(
-                    sprintf('User with UID "%s" not found', $entity->getCreatedBy()->getUid())
+                    sprintf('User with UID "%s" not found', $entity->getCreatedBy()->getUid()) 
                 );
             }
 

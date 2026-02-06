@@ -6,16 +6,18 @@ use Dadinaks\Product\Adapter\Dto\ProductHistoryDto;
 use Dadinaks\Product\Adapter\Dto\HistoryDto;
 use Dadinaks\User\Adapter\Dto\Shared\OutputDto as UserDto;
 use Dadinaks\Product\Domain\Repository\ProductRepositoryInterface;
+use Dadinaks\User\Domain\Repository\UserRepositoryInterface;
 
 final class ProductMovementHistory
 {
     public function __construct(
-        private readonly ProductRepositoryInterface $repository,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly UserRepositoryInterface $userRepository,
     ) {}
 
     public function execute(string $uid): ProductHistoryDto
     {
-        $product = $this->repository->findByUid(uid: $uid);
+        $product = $this->productRepository->findByUid(uid: $uid);
 
         if (!$product) {
             throw new \DomainException(
@@ -23,15 +25,24 @@ final class ProductMovementHistory
             );
         }
 
-        $history = $this->repository->findHistory(uid: $uid);
-        
-        $historyDtos = array_map(fn(array $item) => new HistoryDto(
-            uid: $item['uid'],
-            quantity: $item['quantity'],
-            date: $item['date'],
-            type: $item['type'],
-            user: UserDto::fromEntity(user: $item['user'])
-        ), $history);
+        $history = $this->productRepository->findHistory(uid: $uid);
+
+        $historyDtos = array_map(function (array $item) {
+            $user = null;
+
+            if (!empty($item['user'])) {
+                $userEntity = $this->userRepository->findByUid(uid: $item['user']);
+                $user = $userEntity ? UserDto::fromEntity(user: $userEntity) : null;
+            }
+
+            return new HistoryDto(
+                uid: $item['uid'],
+                quantity: $item['quantity'],
+                date: $item['date'],
+                type: $item['type'],
+                user: $user
+            );
+        }, $history);
 
         return new ProductHistoryDto(
             uid: $product->getUid(),

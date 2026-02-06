@@ -21,29 +21,33 @@ final class ProductQuery extends ServiceEntityRepository
             'SELECT
                 e.uid,
                 e.quantity,
-                e.created_at AS date,
+                e.createdAt AS date,
                 \'entry\' AS type,
-                e.created_by_id AS user                
+                u.uid AS user
             FROM Dadinaks\Product\Infrastructure\Persistence\Doctrine\Entity\ProductOrm p
             JOIN Dadinaks\Entry\Infrastructure\Persistence\Doctrine\Entity\EntryOrm e WITH e.product = p
-            WHERE p.uid = :uid',
-            array('uid' => $uid)
+            JOIN Dadinaks\User\Infrastructure\Persistence\Doctrine\Entity\UserOrm u WITH e.createdBy = u
+            WHERE p.uid = :uid'
         );
+        $entryQuery->setParameter('uid', $uid);
+        $entryQueryResult = $entryQuery->getResult();
 
         $exitQuery = $entityManager->createQuery(
             'SELECT
                 ex.uid,
                 ex.quantity,
-                ex.created_at AS date,
+                ex.createdAt AS date,
                 \'exits\' AS type,
-                ex.created_by_id AS user
+                u.uid AS user
             FROM Dadinaks\Product\Infrastructure\Persistence\Doctrine\Entity\ProductOrm p
-            JOIN Dadinaks\Exits\Infrastructure\Persistence\Doctrine\Entity\ExitOrm ex WITH ex.product = p
-            WHERE p.uid = :uid',
-            array('uid' => $uid)
+            JOIN Dadinaks\Exits\Infrastructure\Persistence\Doctrine\Entity\ExitsOrm ex WITH ex.product = p
+            JOIN Dadinaks\User\Infrastructure\Persistence\Doctrine\Entity\UserOrm u WITH ex.createdBy = u
+            WHERE p.uid = :uid'
         );
+        $exitQuery->setParameter('uid', $uid);
+        $exitQueryResult = $exitQuery->getResult();
 
-        $history = array_merge($entryQuery->getResult(), $exitQuery->getResult());
+        $history = array_merge($entryQueryResult, $exitQueryResult);
 
         usort($history, fn($a, $b) => $b['date'] <=> $a['date']);
 
